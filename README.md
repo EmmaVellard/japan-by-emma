@@ -1,8 +1,8 @@
-# Japan by Emma
+# 🇯🇵 Japan by Emma
 
 A personal, bilingual travel guide to Japan, created from the places, photographs and practical tips I have collected along the way.
 
-**[Visit Japan by Emma](https://emmavellard.github.io/japan-by-emma/)**
+**[Visit the website](https://emmavellard.github.io/japan-by-emma/)**
 
 ![Japan by Emma homepage](public/readme/homepage.png)
 
