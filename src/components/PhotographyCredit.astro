@@ -1,0 +1,16 @@
+---
+interface Props {
+  class?: string | undefined;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<p
+  class:list={[
+    'text-xs font-semibold uppercase tracking-[0.12em] text-ink-soft/75',
+    className,
+  ]}
+>
+  Photography © Emma Vellard
+</p>

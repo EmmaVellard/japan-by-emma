@@ -6,22 +6,32 @@ interface Props {
   alt?: string | undefined;
   caption?: string | undefined;
   location?: string | undefined;
+  credit?: string | undefined;
   date?: Date | undefined;
   locale?: string | undefined;
 }
-const { image, alt, caption, location, date, locale = 'en' } = Astro.props;
+const {
+  image,
+  alt,
+  caption,
+  location,
+  credit,
+  date,
+  locale = 'en',
+} = Astro.props;
 ---
 
 <article class="editorial-card">
   <HeroImage {image} {alt} class="aspect-[4/3]" />
   {
-    (caption || location || date) && (
+    (caption || location || credit || date) && (
       <div class="p-4">
-        <p class="font-display text-lg">{caption}</p>
-        {(location || date) && (
+        {caption && <p class="font-display text-lg">{caption}</p>}
+        {(location || credit || date) && (
           <p class="mt-1 text-xs font-bold uppercase tracking-wider text-ink-soft">
             {[
               location,
+              credit,
               date
                 ? new Intl.DateTimeFormat(locale, {
                     dateStyle: 'medium',

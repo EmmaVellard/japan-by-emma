@@ -8,7 +8,7 @@ order: 3
 featured: true
 lastUpdated: 2024-01-01
 needsReview: true
-heroImage: ../../../assets/images/osaka/osaka-hero.jpg
+heroImage: ../../../assets/images/generated/osaka/osaka-hero.jpg
 heroAlt: One of my photographs of Osaka
 heroCaption: Osaka
 region: Kansai

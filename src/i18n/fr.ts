@@ -65,6 +65,8 @@ export const fr = {
   },
   footer: {
     note: 'Mon guide personnel et pratique du Japon.',
+    copyright:
+      '© Emma Vellard. Mes photographies personnelles ne peuvent pas être réutilisées sans autorisation.',
     source:
       'Certaines informations évoluent. Vérifiez toujours les prix, horaires et conditions d’entrée avant de partir.',
   },

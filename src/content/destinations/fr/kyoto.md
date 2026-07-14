@@ -9,7 +9,7 @@ featured: true
 lastUpdated: 2024-01-01
 needsReview: true
 translationReview: true
-heroImage: ../../../assets/images/kyoto/kyoto-hero.jpg
+heroImage: ../../../assets/images/generated/kyoto/kyoto-hero.jpg
 heroAlt: Une de mes photographies de Kyoto
 heroCaption: Kyoto
 region: Kansai

@@ -9,7 +9,7 @@ featured: true
 lastUpdated: 2024-01-01
 needsReview: true
 translationReview: true
-heroImage: ../../../assets/images/tokyo/tokyo-hero.jpg
+heroImage: ../../../assets/images/generated/tokyo/tokyo-hero.jpg
 heroAlt: Une de mes photographies de Tokyo
 heroCaption: Tokyo
 region: Kantō

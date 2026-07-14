@@ -64,6 +64,8 @@ export const en = {
   },
   footer: {
     note: 'My personal, practical guide to Japan.',
+    copyright:
+      '© Emma Vellard. Personal photographs may not be reused without permission.',
     source:
       'Some details change. Always verify prices, schedules and entry rules before travelling.',
   },

@@ -9,7 +9,7 @@ featured: true
 lastUpdated: 2024-01-01
 needsReview: true
 translationReview: true
-heroImage: ../../../assets/images/osaka/osaka-hero.jpg
+heroImage: ../../../assets/images/generated/osaka/osaka-hero.jpg
 heroAlt: Une de mes photographies d’Osaka
 heroCaption: Osaka
 region: Kansai

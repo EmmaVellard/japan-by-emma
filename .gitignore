@@ -14,6 +14,14 @@ src/assets/images/about/emma-portrait1.jpeg
 # photograph is ready to appear on the public website.
 src/assets/images/lens/*
 !src/assets/images/lens/.gitkeep
-!src/assets/images/lens/01-kyoto.jpg
-!src/assets/images/lens/02-osaka.jpg
-!src/assets/images/lens/03-tokyo.jpg
+
+# Original photographs are local inputs only. Only processed web copies belong
+# in src/assets/images/generated/.
+photos/originals/**
+!photos/originals/.gitkeep
+*.raw
+*.cr2
+*.cr3
+*.nef
+*.arw
+*.dng

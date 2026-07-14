@@ -8,7 +8,7 @@ order: 1
 featured: true
 lastUpdated: 2024-01-01
 needsReview: true
-heroImage: ../../../assets/images/tokyo/tokyo-hero.jpg
+heroImage: ../../../assets/images/generated/tokyo/tokyo-hero.jpg
 heroAlt: One of my photographs of Tokyo
 heroCaption: Tokyo
 region: Kantō

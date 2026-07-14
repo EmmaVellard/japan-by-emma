@@ -9,6 +9,9 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "images:process": "tsx scripts/process-images.ts",
+    "images:process:force": "tsx scripts/process-images.ts --force",
+    "images:clean": "tsx scripts/process-images.ts --clean",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
@@ -23,6 +26,7 @@
     "@astrojs/check": "0.9.9",
     "prettier": "3.9.5",
     "prettier-plugin-astro": "0.14.1",
+    "tsx": "^4.23.1",
     "typescript": "6.0.2"
   }
 }

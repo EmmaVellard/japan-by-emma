@@ -1,5 +1,9 @@
-import kyotoImage from '../assets/images/lens/01-kyoto.jpg';
-import osakaImage from '../assets/images/lens/02-osaka.jpg';
-import tokyoImage from '../assets/images/lens/03-tokyo.jpg';
+import type { ImageMetadata } from 'astro';
 
-export const lensImages = [kyotoImage, osakaImage, tokyoImage];
+const generatedLensModules = import.meta.glob<{
+  default: ImageMetadata;
+}>('../assets/images/generated/lens/*.{jpg,jpeg,png}', { eager: true });
+
+export const lensImages = Object.entries(generatedLensModules)
+  .sort(([firstPath], [secondPath]) => firstPath.localeCompare(secondPath))
+  .map(([, module]) => module.default);

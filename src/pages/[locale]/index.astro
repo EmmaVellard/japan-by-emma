@@ -7,11 +7,11 @@ import GuideCard from '../../components/GuideCard.astro';
 import ItineraryCard from '../../components/ItineraryCard.astro';
 import DestinationCard from '../../components/DestinationCard.astro';
 import PhotoGallery from '../../components/PhotoGallery.astro';
-import homepageImage from '../../assets/images/homepage/home-hero.jpg';
-import galleryTokyoImage from '../../assets/images/homepage/gallery-tokyo.jpg';
-import tokyoImage from '../../assets/images/tokyo/tokyo-hero.jpg';
-import kyotoImage from '../../assets/images/kyoto/kyoto-hero.jpg';
-import osakaImage from '../../assets/images/osaka/osaka-hero.jpg';
+import homepageImage from '../../assets/images/generated/homepage/home-hero.jpg';
+import galleryTokyoImage from '../../assets/images/generated/homepage/gallery-tokyo.jpg';
+import tokyoImage from '../../assets/images/generated/tokyo/tokyo-hero.jpg';
+import kyotoImage from '../../assets/images/generated/kyoto/kyoto-hero.jpg';
+import osakaImage from '../../assets/images/generated/osaka/osaka-hero.jpg';
 import {
   dictionaries,
   isLocale,
@@ -216,6 +216,7 @@ const homepageLensImages =
       <div class="mt-10">
         <PhotoGallery
           photos={homepageLensImages.map((image) => ({ image, alt }))}
+          showCredit
         />
       </div>
       <a

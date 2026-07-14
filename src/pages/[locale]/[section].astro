@@ -5,10 +5,11 @@ import ContentLayout from '../../layouts/ContentLayout.astro';
 import HeroImage from '../../components/HeroImage.astro';
 import MapEmbed from '../../components/MapEmbed.astro';
 import LastUpdated from '../../components/LastUpdated.astro';
-import homepageImage from '../../assets/images/homepage/home-hero.jpg';
-import galleryTokyoImage from '../../assets/images/homepage/gallery-tokyo.jpg';
-import kyotoImage from '../../assets/images/kyoto/kyoto-hero.jpg';
-import osakaImage from '../../assets/images/osaka/osaka-hero.jpg';
+import PhotographyCredit from '../../components/PhotographyCredit.astro';
+import homepageImage from '../../assets/images/generated/homepage/home-hero.jpg';
+import galleryTokyoImage from '../../assets/images/generated/homepage/gallery-tokyo.jpg';
+import kyotoImage from '../../assets/images/generated/kyoto/kyoto-hero.jpg';
+import osakaImage from '../../assets/images/generated/osaka/osaka-hero.jpg';
 import type { ImageMetadata } from 'astro';
 import { maps, social } from '../../data/maps';
 import { lensImages } from '../../data/lens';
@@ -43,7 +44,7 @@ const t = dictionaries[locale];
 const alternatePath = localisedPath(otherLocale(locale), kind);
 const today = new Date('2026-07-13');
 const portraitModules = import.meta.glob<{ default: ImageMetadata }>(
-  '../../assets/images/about/emma-portrait.{jpg,jpeg,png,webp}',
+  '../../assets/images/generated/about/emma-portrait.{jpg,jpeg,png}',
   { eager: true },
 );
 const portraitImage = Object.values(portraitModules)[0]?.default;
@@ -131,6 +132,7 @@ if (kind === 'resources' && resource) {
             </div>
           ))}
         </div>
+        <PhotographyCredit class="mt-4 text-right" />
         <dialog
           class="lens-lightbox"
           data-lens-lightbox

@@ -8,7 +8,7 @@ order: 2
 featured: true
 lastUpdated: 2024-01-01
 needsReview: true
-heroImage: ../../../assets/images/kyoto/kyoto-hero.jpg
+heroImage: ../../../assets/images/generated/kyoto/kyoto-hero.jpg
 heroAlt: One of my photographs of Kyoto
 heroCaption: Kyoto
 region: Kansai
