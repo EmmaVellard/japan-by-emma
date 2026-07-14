@@ -1,0 +1,33 @@
+---
+import '../styles/global.css';
+import { withBase } from '../i18n/utils';
+---
+
+<!doctype html>
+<html lang="en">
+  <head
+    ><meta charset="UTF-8" /><meta
+      name="viewport"
+      content="width=device-width"
+    /><meta name="robots" content="noindex" /><title>
+      Page not found · Japan by Emma
+    </title></head
+  ><body
+    ><main class="grid min-h-screen place-items-center px-4">
+      <section class="max-w-xl text-center">
+        <p class="eyebrow justify-center before:hidden">404</p><h1
+          class="section-title mx-auto mt-6"
+        >
+          Lost in translation?
+        </h1><p class="mt-5 leading-7 text-ink-soft">
+          This page could not be found. Cette page est introuvable.
+        </p><div class="mt-8 flex justify-center gap-3">
+          <a class="button-primary" href={withBase('/en/')}>English</a><a
+            class="button-secondary"
+            href={withBase('/fr/')}>Français</a
+          >
+        </div>
+      </section>
+    </main></body
+  >
+</html>

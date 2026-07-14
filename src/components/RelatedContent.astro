@@ -1,0 +1,32 @@
+---
+import { withBase } from '../i18n/utils';
+interface Item {
+  title: string;
+  href: string;
+}
+interface Props {
+  title: string;
+  items: Item[];
+}
+const { title, items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <aside class="border-t border-ink/15 pt-10">
+      <>
+        <h2 class="text-3xl">{title}</h2>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          {items.map((item) => (
+            <a
+              class="border border-ink/10 bg-white/30 p-5 font-semibold no-underline hover:bg-white/60"
+              href={withBase(item.href)}
+            >
+              {item.title} <span aria-hidden="true">→</span>
+            </a>
+          ))}
+        </div>
+      </>
+    </aside>
+  )
+}

@@ -1,0 +1,69 @@
+---
+import {
+  dictionaries,
+  localisedPath,
+  type Locale,
+  type Section,
+  withBase,
+} from '../i18n/utils';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  locale: Locale;
+  alternatePath: string;
+}
+const { locale, alternatePath } = Astro.props;
+const t = dictionaries[locale];
+const links: { section: Section; label: string }[] = [
+  { section: 'guide', label: t.nav.guide },
+  { section: 'itineraries', label: t.nav.itineraries },
+  { section: 'destinations', label: t.nav.destinations },
+  { section: 'lens', label: t.nav.lens },
+  { section: 'maps', label: t.nav.maps },
+  { section: 'resources', label: t.nav.resources },
+  { section: 'about', label: t.nav.about },
+];
+const currentPath = Astro.url.pathname;
+const isActive = (section: Section) =>
+  currentPath.startsWith(withBase(localisedPath(locale, section)));
+---
+
+<details class="group relative lg:hidden">
+  <summary
+    class="flex min-h-11 cursor-pointer list-none items-center border border-ink/20 px-4 text-sm font-bold [&::-webkit-details-marker]:hidden"
+  >
+    {t.nav.menu}
+  </summary>
+  <div
+    class="absolute right-0 top-14 z-50 w-[min(20rem,calc(100vw-2rem))] border border-ink/15 bg-paper p-3 shadow-soft"
+  >
+    <nav aria-label={t.nav.menu}>
+      <ul class="grid gap-1">
+        {
+          links.map(({ section, label }) => {
+            const active = isActive(section);
+            return (
+              <li>
+                <a
+                  class:list={[
+                    'flex min-h-12 items-center whitespace-nowrap border-l-2 px-4 font-semibold',
+                    active
+                      ? 'border-vermilion bg-paper-deep text-vermilion-dark'
+                      : 'border-transparent hover:bg-paper-deep',
+                  ]}
+                  href={withBase(localisedPath(locale, section))}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+    <div class="mt-3 border-t border-ink/10 pt-3">
+      <LanguageSwitcher {locale} {alternatePath} />
+    </div>
+  </div>
+</details>

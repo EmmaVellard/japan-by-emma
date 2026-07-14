@@ -1,0 +1,49 @@
+---
+import { withBase } from '../i18n/utils';
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  days: number;
+  dayLabel: string;
+  destinations: string[];
+  featured?: boolean;
+}
+const {
+  title,
+  description,
+  href,
+  days,
+  dayLabel,
+  destinations,
+  featured = false,
+} = Astro.props;
+---
+
+<a
+  class:list={[
+    'editorial-card group flex flex-col p-6 no-underline transition-transform hover:-translate-y-1 sm:p-7',
+    featured && 'border-l-4 border-l-vermilion',
+  ]}
+  href={withBase(href)}
+>
+  <div class="flex items-center justify-between">
+    <span
+      class:list={[
+        'border border-ink/10 bg-sage-pale px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-ink',
+      ]}>{days} {dayLabel}</span
+    ><span
+      aria-hidden="true"
+      class="text-xl transition-transform group-hover:translate-x-1">→</span
+    >
+  </div>
+  <h3 class="mt-8 text-3xl leading-tight">{title}</h3>
+  <p class="mt-3 text-sm leading-6 text-ink-soft">
+    {description}
+  </p>
+  <p
+    class="mt-8 border-t border-ink/10 pt-4 text-xs font-bold uppercase tracking-wider text-ink-soft"
+  >
+    {destinations.join(' · ')}
+  </p>
+</a>

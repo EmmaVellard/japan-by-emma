@@ -1,0 +1,38 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  singleLine?: boolean;
+}
+const { eyebrow, title, intro, singleLine = false } = Astro.props;
+---
+
+<header
+  class:list={[
+    'grid gap-5 md:items-end',
+    singleLine ? 'md:grid-cols-1' : 'md:grid-cols-[1fr_0.8fr]',
+  ]}
+>
+  <div>
+    {eyebrow && <p class="eyebrow mb-5">{eyebrow}</p>}<h2
+      class:list={['section-title', singleLine && 'lens-title']}
+    >
+      {title}
+    </h2>
+  </div>
+  {
+    intro && (
+      <p
+        class:list={[
+          'text-base leading-7 text-ink-soft md:text-lg',
+          singleLine
+            ? 'max-w-none sm:whitespace-nowrap md:justify-self-start'
+            : 'max-w-xl md:justify-self-end',
+        ]}
+      >
+        {intro}
+      </p>
+    )
+  }
+</header>

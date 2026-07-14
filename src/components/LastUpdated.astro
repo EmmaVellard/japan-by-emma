@@ -1,0 +1,42 @@
+---
+interface Props {
+  label: string;
+  date: Date;
+  locale: string;
+  needsReview?: boolean | undefined;
+  reviewLabel?: string | undefined;
+  recentLabel?: string | undefined;
+}
+const {
+  label,
+  date,
+  locale,
+  needsReview = false,
+  reviewLabel,
+  recentLabel,
+} = Astro.props;
+const isRecent = date.getTime() >= Date.UTC(2026, 2, 1);
+---
+
+<div
+  class="flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-wider text-ink-soft"
+>
+  <span
+    >{label}: {
+      new Intl.DateTimeFormat(locale, {
+        dateStyle: 'medium',
+        timeZone: 'UTC',
+      }).format(date)
+    }</span
+  >{
+    isRecent && recentLabel && (
+      <span class="bg-sage-pale px-3 py-1.5 text-ink">{recentLabel}</span>
+    )
+  }{
+    needsReview && (
+      <span class="bg-[#f4dfd8] px-3 py-1.5 text-vermilion-dark">
+        {reviewLabel}
+      </span>
+    )
+  }
+</div>

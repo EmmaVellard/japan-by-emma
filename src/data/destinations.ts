@@ -1,0 +1,17 @@
+export const plannedDestinations = [
+  'Nara',
+  'Kobe',
+  'Hiroshima',
+  'Miyajima',
+  'Kanazawa',
+  'Takayama',
+  'Shirakawa-go',
+  'Sendai',
+  'Aomori',
+  'Hakodate',
+  'Sapporo',
+  'Beppu',
+  'Yufuin',
+  'Kumamoto',
+  'Yakushima',
+] as const;

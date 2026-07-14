@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://emmavellard.github.io/japan-by-emma/sitemap-index.xml

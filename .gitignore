@@ -1,0 +1,19 @@
+node_modules/
+.pnpm-store/
+dist/
+.astro/
+.DS_Store
+tmp/
+*.log
+
+# This project uses pnpm. Keep npm's local lockfile out of the repository.
+package-lock.json
+src/assets/images/about/emma-portrait1.jpeg
+
+# Keep unpublished lens photographs local. Add an explicit exception when a
+# photograph is ready to appear on the public website.
+src/assets/images/lens/*
+!src/assets/images/lens/.gitkeep
+!src/assets/images/lens/01-kyoto.jpg
+!src/assets/images/lens/02-osaka.jpg
+!src/assets/images/lens/03-tokyo.jpg

@@ -1,0 +1,25 @@
+---
+import {
+  dictionaries,
+  type Locale,
+  otherLocale,
+  withBase,
+} from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  alternatePath: string;
+}
+
+const { locale, alternatePath } = Astro.props;
+const targetLocale = otherLocale(locale);
+---
+
+<a
+  class="inline-flex min-h-11 items-center border border-ink/20 px-3.5 text-xs font-bold tracking-wide hover:bg-ink hover:text-paper"
+  href={withBase(alternatePath)}
+  lang={targetLocale}
+  hreflang={targetLocale}
+>
+  {dictionaries[targetLocale].localeName}
+</a>

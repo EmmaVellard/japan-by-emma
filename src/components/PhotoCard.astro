@@ -1,0 +1,39 @@
+---
+import type { ImageMetadata } from 'astro';
+import HeroImage from './HeroImage.astro';
+interface Props {
+  image?: ImageMetadata | undefined;
+  alt?: string | undefined;
+  caption?: string | undefined;
+  location?: string | undefined;
+  date?: Date | undefined;
+  locale?: string | undefined;
+}
+const { image, alt, caption, location, date, locale = 'en' } = Astro.props;
+---
+
+<article class="editorial-card">
+  <HeroImage {image} {alt} class="aspect-[4/3]" />
+  {
+    (caption || location || date) && (
+      <div class="p-4">
+        <p class="font-display text-lg">{caption}</p>
+        {(location || date) && (
+          <p class="mt-1 text-xs font-bold uppercase tracking-wider text-ink-soft">
+            {[
+              location,
+              date
+                ? new Intl.DateTimeFormat(locale, {
+                    dateStyle: 'medium',
+                    timeZone: 'UTC',
+                  }).format(date)
+                : undefined,
+            ]
+              .filter(Boolean)
+              .join(' · ')}
+          </p>
+        )}
+      </div>
+    )
+  }
+</article>

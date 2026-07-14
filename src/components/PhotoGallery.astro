@@ -1,0 +1,20 @@
+---
+import type { ImageMetadata } from 'astro';
+import PhotoCard from './PhotoCard.astro';
+interface Photo {
+  image?: ImageMetadata | undefined;
+  alt?: string | undefined;
+  caption?: string | undefined;
+  location?: string | undefined;
+  date?: Date | undefined;
+}
+interface Props {
+  photos: Photo[];
+  locale?: string | undefined;
+}
+const { photos, locale = 'en' } = Astro.props;
+---
+
+<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  {photos.map((photo) => <PhotoCard {...photo} {locale} />)}
+</div>

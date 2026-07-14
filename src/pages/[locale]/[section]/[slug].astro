@@ -1,0 +1,246 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ContentLayout from '../../../layouts/ContentLayout.astro';
+import DayTimeline from '../../../components/DayTimeline.astro';
+import InfoBox from '../../../components/InfoBox.astro';
+import WarningBox from '../../../components/WarningBox.astro';
+import PhotoGallery from '../../../components/PhotoGallery.astro';
+import {
+  dictionaries,
+  localisedPath,
+  otherLocale,
+  sectionSlugs,
+  type Locale,
+  withBase,
+} from '../../../i18n/utils';
+import { maps } from '../../../data/maps';
+
+type PageKind = 'itineraries' | 'destinations';
+type PageEntry = CollectionEntry<PageKind>;
+interface ItineraryNavItem {
+  title: string;
+  slug: string;
+}
+interface PageProps {
+  locale: Locale;
+  kind: PageKind;
+  entry: PageEntry;
+  translation?: PageEntry;
+  previous?: ItineraryNavItem;
+  next?: ItineraryNavItem;
+}
+
+export async function getStaticPaths() {
+  const kinds: PageKind[] = ['itineraries', 'destinations'];
+  const pages = await Promise.all(
+    kinds.map(async (kind) => ({ kind, entries: await getCollection(kind) })),
+  );
+  return pages.flatMap(({ kind, entries }) =>
+    entries.map((entry) => {
+      const locale = entry.data.locale as Locale;
+      const translation = entries.find(
+        (candidate) =>
+          candidate.data.translationKey === entry.data.translationKey &&
+          candidate.data.locale !== locale,
+      );
+      const siblings =
+        kind === 'itineraries'
+          ? entries
+              .filter((candidate) => candidate.data.locale === locale)
+              .sort((a, b) => a.data.order - b.data.order)
+          : [];
+      const siblingIndex = siblings.findIndex(
+        (candidate) => candidate.id === entry.id,
+      );
+      const previousEntry =
+        siblingIndex > 0 ? siblings[siblingIndex - 1] : undefined;
+      const nextEntry =
+        siblingIndex >= 0 && siblingIndex < siblings.length - 1
+          ? siblings[siblingIndex + 1]
+          : undefined;
+      const previous = previousEntry
+        ? {
+            title: previousEntry.data.title,
+            slug: previousEntry.data.slug,
+          }
+        : undefined;
+      const next = nextEntry
+        ? { title: nextEntry.data.title, slug: nextEntry.data.slug }
+        : undefined;
+      return {
+        params: {
+          locale,
+          section: sectionSlugs[kind][locale],
+          slug: entry.data.slug,
+        },
+        props: { locale, kind, entry, translation, previous, next },
+      };
+    }),
+  );
+}
+
+const { locale, kind, entry, translation, previous, next } =
+  Astro.props as PageProps;
+const { Content, headings } = await render(entry);
+const t = dictionaries[locale];
+const targetLocale = otherLocale(locale);
+const alternatePath = translation
+  ? localisedPath(targetLocale, kind, translation.data.slug)
+  : localisedPath(targetLocale);
+const sectionTitle =
+  kind === 'itineraries' ? t.pages.itineraryTitle : t.pages.destinationTitle;
+const breadcrumbs = [
+  { label: 'Japan by Emma', href: localisedPath(locale) },
+  { label: sectionTitle, href: localisedPath(locale, kind) },
+  { label: entry.data.title },
+];
+---
+
+<ContentLayout
+  {locale}
+  title={entry.data.title}
+  description={entry.data.description}
+  {alternatePath}
+  lastUpdated={entry.data.lastUpdated}
+  needsReview={entry.data.needsReview}
+  {headings}
+  heroImage={entry.data.heroImage}
+  heroAlt={entry.data.heroAlt}
+  heroCaption={entry.data.heroCaption}
+  {breadcrumbs}
+>
+  {
+    kind === 'itineraries' && 'timeline' in entry.data && (
+      <>
+        {entry.data.recommendedFor && (
+          <InfoBox label={t.labels.recommendedFor}>
+            {entry.data.recommendedFor}
+          </InfoBox>
+        )}
+        <h2>{t.labels.route}</h2>
+        <DayTimeline items={entry.data.timeline} dayLabel={t.labels.day} />
+      </>
+    )
+  }
+  <Content />
+  {
+    entry.data.gallery.length > 0 && (
+      <PhotoGallery photos={entry.data.gallery} {locale} />
+    )
+  }
+  {
+    kind === 'itineraries' &&
+      'transportNotes' in entry.data &&
+      entry.data.transportNotes.length > 0 && (
+        <>
+          <>
+            <h2>
+              {locale === 'en' ? 'Transport notes' : 'Notes de transport'}
+            </h2>
+            <ul>
+              {entry.data.transportNotes.map((note) => (
+                <li>{note}</li>
+              ))}
+            </ul>
+          </>
+        </>
+      )
+  }
+  {
+    kind === 'itineraries' &&
+      'alternatives' in entry.data &&
+      entry.data.alternatives.length > 0 && (
+        <>
+          <>
+            <h2>{t.labels.alternatives}</h2>
+            <ul>
+              {entry.data.alternatives.map((note) => (
+                <li>{note}</li>
+              ))}
+            </ul>
+          </>
+        </>
+      )
+  }
+  {
+    kind === 'itineraries' && (
+      <p>
+        <a
+          class="button-secondary"
+          href={
+            'mapUrl' in entry.data
+              ? (entry.data.mapUrl ?? maps.googleMyMaps)
+              : maps.googleMyMaps
+          }
+        >
+          {t.actions.openMap} ↗
+        </a>
+      </p>
+    )
+  }
+  {
+    kind === 'destinations' && 'recommendedDuration' in entry.data && (
+      <InfoBox
+        label={locale === 'en' ? 'Recommended duration' : 'Durée conseillée'}
+      >
+        {entry.data.recommendedDuration}
+      </InfoBox>
+    )
+  }
+  {
+    kind === 'destinations' && 'mapUrl' in entry.data && entry.data.mapUrl && (
+      <p>
+        <a class="button-secondary" href={entry.data.mapUrl}>
+          {t.actions.openMap} ↗
+        </a>
+      </p>
+    )
+  }
+  {
+    entry.data.needsReview && (
+      <WarningBox label={t.labels.verify}>
+        {locale === 'en'
+          ? 'Prices, timetables, eligibility and booking conditions can change. Check the official operator or venue before making plans.'
+          : 'Les prix, horaires, conditions d’éligibilité et de réservation peuvent évoluer. Vérifiez le site officiel de l’opérateur ou du lieu avant de vous organiser.'}
+      </WarningBox>
+    )
+  }
+  {
+    kind === 'itineraries' && (previous || next) && (
+      <nav
+        class="not-prose mt-14 grid border-y border-ink/15 sm:grid-cols-2"
+        aria-label={locale === 'en' ? 'More itineraries' : 'Autres itinéraires'}
+      >
+        {previous ? (
+          <a
+            class="group border-b border-ink/15 px-5 py-6 no-underline hover:bg-paper-deep sm:border-b-0 sm:border-r sm:px-7"
+            href={withBase(localisedPath(locale, 'itineraries', previous.slug))}
+          >
+            <span class="text-xs font-bold uppercase tracking-[0.14em] text-vermilion-dark">
+              ←{' '}
+              {locale === 'en' ? 'Previous itinerary' : 'Itinéraire précédent'}
+            </span>
+            <span class="mt-2 block font-display text-2xl font-medium text-ink group-hover:underline">
+              {previous.title}
+            </span>
+          </a>
+        ) : (
+          <span class="hidden sm:block" aria-hidden="true" />
+        )}
+        {next && (
+          <a
+            class="group px-5 py-6 text-left no-underline hover:bg-paper-deep sm:px-7 sm:text-right"
+            href={withBase(localisedPath(locale, 'itineraries', next.slug))}
+          >
+            <span class="text-xs font-bold uppercase tracking-[0.14em] text-vermilion-dark">
+              {locale === 'en' ? 'Next itinerary' : 'Itinéraire suivant'} →
+            </span>
+            <span class="mt-2 block font-display text-2xl font-medium text-ink group-hover:underline">
+              {next.title}
+            </span>
+          </a>
+        )}
+      </nav>
+    )
+  }
+</ContentLayout>

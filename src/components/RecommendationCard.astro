@@ -1,0 +1,38 @@
+---
+import PersonalRecommendationBadge from './PersonalRecommendationBadge.astro';
+import ResearchRecommendationBadge from './ResearchRecommendationBadge.astro';
+interface Props {
+  name: string;
+  description: string;
+  status: 'visited' | 'researched' | 'to-test';
+  visitedLabel: string;
+  researchedLabel: string;
+  toTestLabel: string;
+}
+const {
+  name,
+  description,
+  status,
+  visitedLabel,
+  researchedLabel,
+  toTestLabel,
+} = Astro.props;
+---
+
+<article class="editorial-card p-6">
+  {
+    status === 'visited' ? (
+      <PersonalRecommendationBadge label={visitedLabel} />
+    ) : status === 'researched' ? (
+      <ResearchRecommendationBadge label={researchedLabel} />
+    ) : (
+      <span class="inline-flex border border-stone bg-paper-deep px-3 py-1.5 text-xs font-bold text-ink-soft">
+        ◇ {toTestLabel}
+      </span>
+    )
+  }<h3 class="mt-5 text-2xl">{name}</h3><p
+    class="mt-2 text-sm leading-6 text-ink-soft"
+  >
+    {description}
+  </p>
+</article>

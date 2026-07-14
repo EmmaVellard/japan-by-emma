@@ -1,0 +1,419 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import HeroImage from '../../components/HeroImage.astro';
+import MapEmbed from '../../components/MapEmbed.astro';
+import LastUpdated from '../../components/LastUpdated.astro';
+import homepageImage from '../../assets/images/homepage/home-hero.jpg';
+import galleryTokyoImage from '../../assets/images/homepage/gallery-tokyo.jpg';
+import kyotoImage from '../../assets/images/kyoto/kyoto-hero.jpg';
+import osakaImage from '../../assets/images/osaka/osaka-hero.jpg';
+import type { ImageMetadata } from 'astro';
+import { maps, social } from '../../data/maps';
+import { lensImages } from '../../data/lens';
+import {
+  dictionaries,
+  localisedPath,
+  locales,
+  otherLocale,
+  sectionSlugs,
+  type Locale,
+} from '../../i18n/utils';
+
+type FixedKind = 'lens' | 'maps' | 'resources' | 'about';
+interface Props {
+  locale: Locale;
+  kind: FixedKind;
+  resource?: CollectionEntry<'resources'>;
+}
+export async function getStaticPaths() {
+  const resources = await getCollection('resources');
+  return locales.flatMap((locale) => {
+    const resource = resources.find((entry) => entry.data.locale === locale);
+    const kinds: FixedKind[] = ['lens', 'maps', 'resources', 'about'];
+    return kinds.map((kind) => ({
+      params: { locale, section: sectionSlugs[kind][locale] },
+      props: { locale, kind, resource },
+    }));
+  });
+}
+const { locale, kind, resource } = Astro.props as Props;
+const t = dictionaries[locale];
+const alternatePath = localisedPath(otherLocale(locale), kind);
+const today = new Date('2026-07-13');
+const portraitModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/images/about/emma-portrait.{jpg,jpeg,png,webp}',
+  { eager: true },
+);
+const portraitImage = Object.values(portraitModules)[0]?.default;
+const galleryImages =
+  lensImages.length > 0
+    ? lensImages
+    : [homepageImage, galleryTokyoImage, kyotoImage, osakaImage];
+let portraitIndex = 0;
+const galleryItems = galleryImages.map((image) => {
+  const isPortrait = image.height > image.width;
+  const portraitSide = isPortrait
+    ? portraitIndex++ % 2 === 0
+      ? 'lens-portrait-left'
+      : 'lens-portrait-right'
+    : '';
+
+  return { image, isPortrait, portraitSide };
+});
+let ResourceContent: Awaited<ReturnType<typeof render>>['Content'] | undefined;
+let resourceHeadings: Awaited<ReturnType<typeof render>>['headings'] = [];
+if (kind === 'resources' && resource) {
+  const rendered = await render(resource);
+  ResourceContent = rendered.Content;
+  resourceHeadings = rendered.headings;
+}
+---
+
+{
+  kind === 'lens' && (
+    <BaseLayout
+      {locale}
+      title={t.home.photographyTitle}
+      description={t.home.photographyText}
+      {alternatePath}
+    >
+      <header class="section-space shell pb-10">
+        <p class="eyebrow">
+          {locale === 'en'
+            ? 'A personal photo journal'
+            : 'Un carnet photo personnel'}
+        </p>
+        <h1 class="section-title lens-title mt-6">{t.home.photographyTitle}</h1>
+        <p class="mt-6 max-w-none text-lg leading-8 text-ink-soft sm:whitespace-nowrap">
+          {locale === 'en'
+            ? 'The details, light and places I wanted to remember.'
+            : 'Les détails, la lumière et les lieux que je voulais garder en mémoire.'}
+        </p>
+      </header>
+      <section class="shell pb-16">
+        <div class="lens-grid" data-lens-gallery>
+          {galleryItems.map(({ image, isPortrait, portraitSide }, index) => (
+            <div
+              class:list={[
+                'lens-tile',
+                isPortrait ? 'lens-tile-portrait' : 'lens-tile-landscape',
+                portraitSide,
+              ]}
+              style={`--lens-aspect: ${image.width} / ${image.height}`}
+            >
+              <HeroImage
+                {image}
+                alt={
+                  locale === 'en'
+                    ? 'A personal photograph from my travels in Japan'
+                    : 'Une photographie personnelle prise pendant mes voyages au Japon'
+                }
+                eager={index === 0}
+                class="h-full"
+              />
+              <button
+                type="button"
+                class="lens-enlarge-button"
+                data-lens-src={image.src}
+                data-lens-alt={
+                  locale === 'en'
+                    ? 'A personal photograph from my travels in Japan'
+                    : 'Une photographie personnelle prise pendant mes voyages au Japon'
+                }
+                aria-label={
+                  locale === 'en'
+                    ? 'Open this photograph larger'
+                    : 'Agrandir cette photographie'
+                }
+              />
+            </div>
+          ))}
+        </div>
+        <dialog
+          class="lens-lightbox"
+          data-lens-lightbox
+          aria-label={
+            locale === 'en' ? 'Enlarged photograph' : 'Photographie agrandie'
+          }
+        >
+          <button
+            type="button"
+            class="lens-lightbox-close"
+            data-lens-close
+            aria-label={
+              locale === 'en' ? 'Close photograph' : 'Fermer la photographie'
+            }
+          >
+            ×
+          </button>
+          <button
+            type="button"
+            class="lens-lightbox-nav lens-lightbox-previous"
+            data-lens-previous
+            aria-label={
+              locale === 'en'
+                ? 'Previous photograph'
+                : 'Photographie précédente'
+            }
+          >
+            ‹
+          </button>
+          <img data-lens-lightbox-image src="" alt="" />
+          <button
+            type="button"
+            class="lens-lightbox-nav lens-lightbox-next"
+            data-lens-next
+            aria-label={
+              locale === 'en' ? 'Next photograph' : 'Photographie suivante'
+            }
+          >
+            ›
+          </button>
+        </dialog>
+      </section>
+    </BaseLayout>
+  )
+}
+
+{
+  kind === 'maps' && (
+    <BaseLayout
+      {locale}
+      title={t.pages.mapsTitle}
+      description={
+        locale === 'en'
+          ? 'My broad planning map and my personally tested Mapstr recommendations.'
+          : 'Ma grande carte de préparation et mes recommandations personnellement testées sur Mapstr.'
+      }
+      {alternatePath}
+    >
+      <header class="section-space shell pb-10">
+        <>
+          <p class="eyebrow">Maps</p>
+          <h1 class="section-title lens-title mt-6">{t.pages.mapsTitle}</h1>
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-ink-soft">
+            {locale === 'en'
+              ? 'Use the broad map to plan; use Mapstr when you want my notes on places I have actually tried.'
+              : 'Utilisez la grande carte pour préparer ; choisissez Mapstr pour mes notes sur les lieux que j’ai réellement testés.'}
+          </p>
+        </>
+      </header>
+      <section class="shell grid gap-5 pb-16 lg:grid-cols-2">
+        <>
+          <MapEmbed
+            title="Google My Maps"
+            description={
+              locale === 'en'
+                ? 'Restaurants, cafes, hotels, museums, parks and places I am considering. I am still adding places in Hokkaido.'
+                : 'Restaurants, cafés, hôtels, musées, parcs et lieux que j’envisage. J’ajoute encore des adresses à Hokkaido.'
+            }
+            url={maps.googleMyMaps}
+            buttonLabel={t.actions.openMap}
+          />
+          <MapEmbed
+            title="Mapstr"
+            description={
+              locale === 'en'
+                ? 'My personal notes on restaurants and hotels I have actually tried.'
+                : 'Mes notes personnelles sur les restaurants et hôtels que j’ai réellement testés.'
+            }
+            url={maps.mapstr}
+            buttonLabel={t.actions.openMap}
+          />
+        </>
+      </section>
+    </BaseLayout>
+  )
+}
+
+{
+  kind === 'resources' && resource && ResourceContent && (
+    <ContentLayout
+      {locale}
+      title={resource.data.title}
+      description={resource.data.description}
+      {alternatePath}
+      lastUpdated={resource.data.lastUpdated}
+      needsReview={resource.data.needsReview}
+      headings={resourceHeadings}
+      breadcrumbs={[
+        { label: 'Japan by Emma', href: localisedPath(locale) },
+        { label: resource.data.title },
+      ]}
+    >
+      <ResourceContent />
+    </ContentLayout>
+  )
+}
+
+{
+  kind === 'about' && (
+    <BaseLayout
+      {locale}
+      title={t.pages.aboutTitle}
+      description={
+        locale === 'en'
+          ? 'Why I created this personal Japan guide and how I choose the places I share.'
+          : 'Pourquoi j’ai créé ce guide personnel du Japon et comment je choisis les lieux que je partage.'
+      }
+      {alternatePath}
+    >
+      <article class="section-space shell max-w-5xl">
+        <>
+          <p class="eyebrow">Emma</p>
+          <h1 class="section-title lens-title mt-6">{t.pages.aboutTitle}</h1>
+        </>
+        <div class="mt-8 grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
+          <aside class="journal-note lg:sticky lg:top-28">
+            <figure class="mb-8 border border-ink/15 bg-paper-deep/70">
+              {portraitImage ? (
+                <HeroImage
+                  image={portraitImage}
+                  alt={locale === 'en' ? 'Portrait of Emma' : 'Portrait d’Emma'}
+                  class="aspect-[3/4]"
+                />
+              ) : (
+                <div
+                  class="aspect-[3/4] w-full bg-[linear-gradient(145deg,#dfe4da,#ebe3d4)]"
+                  role="img"
+                  aria-label={
+                    locale === 'en'
+                      ? 'Reserved portrait photograph space'
+                      : 'Espace réservé pour une photographie en portrait'
+                  }
+                />
+              )}
+            </figure>
+            <p class="eyebrow">
+              {locale === 'en' ? 'About me' : 'À propos de moi'}
+            </p>
+            <h2 class="mt-6 text-4xl">
+              {locale === 'en' ? 'Hello, I’m Emma.' : 'Bonjour, je suis Emma.'}
+            </h2>
+            <p class="mt-5 leading-7 text-ink-soft">
+              {locale === 'en'
+                ? 'I fell completely in love with Japan—its everyday details, its food and landscapes, and the way each neighbourhood seems to have a world of its own. I created this guide to gather the places and tips I’ve collected along the way and share them with friends and fellow travellers.'
+                : 'Je suis complètement tombée amoureuse du Japon — de ses petits détails du quotidien, de sa cuisine et de ses paysages, et de la façon dont chaque quartier semble avoir son propre univers. J’ai créé ce guide pour rassembler les lieux et conseils que j’ai recueillis au fil de mes découvertes et les partager avec mes proches et d’autres voyageurs.'}
+            </p>
+            <a
+              class="button-secondary mt-7"
+              href={social.personalWebsite}
+              rel="external noreferrer"
+              target="_blank"
+            >
+              {locale === 'en'
+                ? 'Visit my personal website'
+                : 'Découvrir mon site personnel'}{' '}
+              ↗
+            </a>
+          </aside>
+          <div class="prose-guide">
+            <p>
+              {locale === 'en' ? (
+                <>
+                  After reading paper guides and saving an unreasonable number
+                  of travel reels, I gathered the{' '}
+                  <strong>Japan must-sees</strong> I did not want to forget and
+                  added the personal recommendations I wanted to share. This
+                  journal is where all those notes now live.
+                </>
+              ) : (
+                <>
+                  Après avoir lu plusieurs guides papier et sauvegardé un nombre
+                  déraisonnable de vidéos de voyage, j’ai rassemblé les{' '}
+                  <strong>incontournables du Japon</strong> que je ne voulais
+                  pas oublier et ajouté les recommandations personnelles que je
+                  souhaitais partager. Ce carnet est désormais l’endroit où je
+                  rassemble toutes ces notes.
+                </>
+              )}
+            </p>
+            <h2>
+              {locale === 'en'
+                ? 'How recommendations are selected'
+                : 'Comment les recommandations sont sélectionnées'}
+            </h2>
+            <p>
+              {locale === 'en'
+                ? 'The labels matter. “Personally visited” means I have actually tried the place. “Researched” means it is on my wider planning map but is not presented as my experience. Empty destination sections stay empty until I have trustworthy source material.'
+                : 'Les étiquettes comptent. « Testé personnellement » signifie que j’ai réellement essayé le lieu. « Recherché » indique une piste sur ma grande carte, sans la présenter comme mon expérience. Les sections de destination restent vides tant que je n’ai pas de source fiable.'}
+            </p>
+            <h2>{locale === 'en' ? 'A living guide' : 'Un guide vivant'}</h2>
+            <p>
+              {locale === 'en'
+                ? 'Prices, transport rules, opening hours and booking systems change, so I always recheck the official source before relying on a practical detail.'
+                : 'Les prix, règles de transport, horaires et systèmes de réservation évoluent. Je vérifie donc toujours la source officielle avant de me fier à une information pratique.'}
+            </p>
+            <p>
+              <a href={social.github}>GitHub ↗</a>
+            </p>
+            <LastUpdated
+              label={t.labels.lastUpdated}
+              date={today}
+              {locale}
+              recentLabel={t.labels.updated}
+            />
+          </div>
+        </div>
+      </article>
+    </BaseLayout>
+  )
+}
+
+<script>
+  const gallery = document.querySelector('[data-lens-gallery]');
+  const lightbox = document.querySelector<HTMLDialogElement>(
+    '[data-lens-lightbox]',
+  );
+  const lightboxImage = lightbox?.querySelector<HTMLImageElement>(
+    '[data-lens-lightbox-image]',
+  );
+  const galleryButtons = Array.from(
+    gallery?.querySelectorAll<HTMLButtonElement>('[data-lens-src]') ?? [],
+  );
+  let activeLensIndex = 0;
+
+  const showLensImage = (index: number) => {
+    if (!lightboxImage || galleryButtons.length === 0) return;
+    activeLensIndex = (index + galleryButtons.length) % galleryButtons.length;
+    const button = galleryButtons[activeLensIndex];
+    if (!button) return;
+    lightboxImage.src = button.dataset.lensSrc ?? '';
+    lightboxImage.alt = button.dataset.lensAlt ?? '';
+  };
+
+  galleryButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      if (!lightbox) return;
+      showLensImage(index);
+      lightbox.showModal();
+    });
+  });
+
+  lightbox
+    ?.querySelector('[data-lens-previous]')
+    ?.addEventListener('click', () => {
+      showLensImage(activeLensIndex - 1);
+    });
+
+  lightbox?.querySelector('[data-lens-next]')?.addEventListener('click', () => {
+    showLensImage(activeLensIndex + 1);
+  });
+
+  lightbox
+    ?.querySelector('[data-lens-close]')
+    ?.addEventListener('click', () => {
+      lightbox.close();
+    });
+
+  lightbox?.addEventListener('click', (event) => {
+    if (event.target === lightbox) lightbox.close();
+  });
+
+  lightbox?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') showLensImage(activeLensIndex - 1);
+    if (event.key === 'ArrowRight') showLensImage(activeLensIndex + 1);
+  });
+</script>

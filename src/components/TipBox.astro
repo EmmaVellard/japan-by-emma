@@ -1,0 +1,12 @@
+---
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<aside class="my-8 border border-sage/30 bg-sage-pale p-6">
+  <p class="text-xs font-bold uppercase tracking-[0.14em] text-ink-soft">
+    {label}
+  </p><div class="mt-3 leading-7"><slot /></div>
+</aside>

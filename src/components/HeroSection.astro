@@ -1,0 +1,79 @@
+---
+import type { ImageMetadata } from 'astro';
+import HeroImage from './HeroImage.astro';
+interface Props {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  image?: ImageMetadata;
+  alt: string;
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref: string;
+  secondaryLabel: string;
+}
+const {
+  eyebrow,
+  title,
+  subtitle,
+  image,
+  alt,
+  primaryHref,
+  primaryLabel,
+  secondaryHref,
+  secondaryLabel,
+} = Astro.props;
+const [titleStart, titleEnd] = title.split(' by ');
+---
+
+<section class="shell pt-8 sm:pt-12">
+  <div
+    class="relative grid min-h-[min(46rem,82vh)] items-end overflow-hidden bg-ink text-white shadow-soft"
+  >
+    <HeroImage
+      {image}
+      {alt}
+      eager
+      class="absolute inset-0 h-full w-full opacity-80"
+    />
+    <div
+      class="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,24,22,.82),rgba(20,24,22,.1)_75%),linear-gradient(0deg,rgba(20,24,22,.72),transparent_55%)]"
+    >
+    </div>
+    <div class="relative z-10 max-w-4xl p-7 sm:p-12 lg:p-16">
+      <p
+        class="eyebrow text-[#ffe1d8] drop-shadow-[0_1px_2px_rgba(0,0,0,.9)] before:bg-current"
+      >
+        {eyebrow}
+      </p>
+      <h1 class="display-title mt-6">
+        {
+          titleEnd ? (
+            <>
+              {titleStart}{' '}
+              <i class="font-normal text-vermilion drop-shadow-[0_1px_2px_rgba(0,0,0,.75)]">
+                by
+              </i>{' '}
+              {titleEnd}
+            </>
+          ) : (
+            title
+          )
+        }
+      </h1>
+      <p
+        class="mt-7 max-w-2xl text-base leading-7 text-white/85 sm:text-xl sm:leading-8"
+      >
+        {subtitle}
+      </p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a class="button-primary bg-[#a94735]" href={primaryHref}
+          >{primaryLabel}</a
+        ><a
+          class="button-secondary border-white/40 text-white"
+          href={secondaryHref}>{secondaryLabel}</a
+        >
+      </div>
+    </div>
+  </div>
+</section>

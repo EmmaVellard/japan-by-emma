@@ -1,0 +1,106 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import HeroImage from '../components/HeroImage.astro';
+import LastUpdated from '../components/LastUpdated.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import { dictionaries, type Locale, withBase } from '../i18n/utils';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  alternatePath: string;
+  lastUpdated: Date;
+  needsReview?: boolean | undefined;
+  headings?: { depth: number; slug: string; text: string }[] | undefined;
+  heroImage?: ImageMetadata | undefined;
+  heroAlt?: string | undefined;
+  heroCaption?: string | undefined;
+  breadcrumbs: { label: string; href?: string }[];
+}
+const {
+  locale,
+  title,
+  description,
+  alternatePath,
+  lastUpdated,
+  needsReview,
+  headings = [],
+  heroImage,
+  heroAlt,
+  heroCaption,
+  breadcrumbs,
+} = Astro.props;
+const t = dictionaries[locale];
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      name: title,
+      description,
+      inLanguage: locale,
+      url: canonicalUrl,
+      dateModified: lastUpdated.toISOString(),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.label,
+        item: item.href
+          ? new URL(withBase(item.href), Astro.site).toString()
+          : canonicalUrl,
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout {locale} {title} {description} {alternatePath} {schema}>
+  <header class="shell pb-8 pt-8 sm:pt-10">
+    <Breadcrumbs items={breadcrumbs} />
+    <div class="mt-6 grid gap-6 lg:grid-cols-[1fr_0.55fr] lg:items-end">
+      <div>
+        <h1 class="section-title max-w-[18ch]">{title}</h1><p
+          class="mt-4 max-w-2xl text-lg leading-8 text-ink-soft"
+        >
+          {description}
+        </p>
+      </div>
+      <div class="lg:justify-self-end">
+        <LastUpdated
+          label={t.labels.lastUpdated}
+          date={lastUpdated}
+          {locale}
+          {needsReview}
+          reviewLabel={t.labels.verify}
+          recentLabel={t.labels.updated}
+        />
+      </div>
+    </div>
+  </header>
+  {
+    (heroImage || heroCaption) && (
+      <div class="shell">
+        <HeroImage
+          image={heroImage}
+          alt={heroAlt}
+          caption={heroCaption}
+          class="aspect-[16/7]"
+        />
+      </div>
+    )
+  }
+  <div
+    class="shell grid gap-8 pb-16 pt-8 lg:grid-cols-[14rem_minmax(0,46rem)] lg:justify-center"
+  >
+    <aside class="lg:sticky lg:top-28 lg:self-start">
+      <TableOfContents {headings} label={t.labels.onThisPage} />
+    </aside>
+    <article class="prose-guide"><slot /></article>
+  </div>
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  image?: ImageMetadata | undefined;
+  alt?: string | undefined;
+  caption?: string | undefined;
+  eager?: boolean | undefined;
+  class?: string | undefined;
+}
+const {
+  image,
+  alt = '',
+  caption,
+  eager = false,
+  class: className = '',
+} = Astro.props;
+const positionClass = className.includes('absolute') ? '' : 'relative';
+---
+
+<figure class:list={[positionClass, 'overflow-hidden bg-sage-pale', className]}>
+  {
+    image ? (
+      <Image
+        src={image}
+        alt={alt}
+        widths={[640, 960, 1280, 1800]}
+        sizes="(min-width: 80rem) 76rem, 100vw"
+        format="webp"
+        loading={eager ? 'eager' : 'lazy'}
+        fetchpriority={eager ? 'high' : 'auto'}
+        class="h-full w-full object-cover"
+      />
+    ) : (
+      <div class="grid min-h-80 place-items-center bg-[linear-gradient(140deg,#dfe4da,#d2c8b7)] p-6 text-center text-sm font-bold uppercase tracking-[0.16em] text-ink/60">
+        Personal photograph coming soon
+      </div>
+    )
+  }
+  {
+    caption && (
+      <figcaption class="absolute bottom-3 right-3 bg-ink/75 px-3 py-1.5 text-xs text-white backdrop-blur">
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>

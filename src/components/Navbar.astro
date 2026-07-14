@@ -1,0 +1,71 @@
+---
+import {
+  dictionaries,
+  localisedPath,
+  type Locale,
+  type Section,
+  withBase,
+} from '../i18n/utils';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import MobileMenu from './MobileMenu.astro';
+
+interface Props {
+  locale: Locale;
+  alternatePath: string;
+}
+const { locale, alternatePath } = Astro.props;
+const t = dictionaries[locale];
+const links: { section: Section; label: string }[] = [
+  { section: 'guide', label: t.nav.guide },
+  { section: 'itineraries', label: t.nav.itineraries },
+  { section: 'destinations', label: t.nav.destinations },
+  { section: 'lens', label: t.nav.lens },
+  { section: 'maps', label: t.nav.maps },
+  { section: 'resources', label: t.nav.resources },
+  { section: 'about', label: t.nav.about },
+];
+const currentPath = Astro.url.pathname;
+const isActive = (section: Section) =>
+  currentPath.startsWith(withBase(localisedPath(locale, section)));
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-ink/10 bg-paper/90 backdrop-blur-xl"
+>
+  <div class="shell flex min-h-18 items-center justify-between gap-4">
+    <a
+      class="font-display text-xl font-semibold tracking-tight no-underline"
+      href={withBase(localisedPath(locale))}
+      >Japan <i class="font-normal text-vermilion">by</i> Emma</a
+    >
+    <nav class="hidden lg:block" aria-label={t.nav.menu}>
+      <ul class="flex items-center gap-1 lg:gap-3">
+        {
+          links.map(({ section, label }) => {
+            const active = isActive(section);
+            return (
+              <li>
+                <a
+                  class:list={[
+                    'inline-flex min-h-11 items-center whitespace-nowrap border-b-2 px-2 text-[0.78rem] font-semibold transition-colors xl:px-3 xl:text-[0.82rem]',
+                    active
+                      ? 'border-vermilion bg-paper-deep text-vermilion-dark'
+                      : 'border-transparent hover:border-ink/25 hover:bg-paper-deep',
+                  ]}
+                  href={withBase(localisedPath(locale, section))}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+    <div class="hidden lg:block">
+      <LanguageSwitcher {locale} {alternatePath} />
+    </div>
+    <MobileMenu {locale} {alternatePath} />
+  </div>
+</header>

@@ -1,0 +1,30 @@
+---
+import { withBase } from '../i18n/utils';
+interface Item {
+  label: string;
+  href?: string;
+}
+interface Props {
+  items: Item[];
+}
+const { items } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="text-sm text-ink-soft">
+  <ol class="flex flex-wrap items-center gap-2">
+    {
+      items.map((item, index) => (
+        <li class="flex items-center gap-2">
+          {index > 0 && <span aria-hidden="true">/</span>}
+          {item.href ? (
+            <a class="hover:text-ink" href={withBase(item.href)}>
+              {item.label}
+            </a>
+          ) : (
+            <span aria-current="page">{item.label}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
