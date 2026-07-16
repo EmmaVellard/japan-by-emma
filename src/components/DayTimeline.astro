@@ -4,11 +4,33 @@ interface Item {
   title: string;
   note?: string | undefined;
 }
+interface DestinationLink {
+  name: string;
+  href: string;
+}
 interface Props {
   items: Item[];
   dayLabel: string;
+  destinationLinks?: DestinationLink[];
 }
-const { items, dayLabel } = Astro.props;
+const { items, dayLabel, destinationLinks = [] } = Astro.props;
+const escapedDestinationNames = destinationLinks
+  .map(({ name }) => name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  .sort((first, second) => second.length - first.length);
+const destinationPattern =
+  escapedDestinationNames.length > 0
+    ? new RegExp(`(${escapedDestinationNames.join('|')})`, 'gi')
+    : undefined;
+
+function titleParts(title: string) {
+  return destinationPattern ? title.split(destinationPattern) : [title];
+}
+
+function destinationFor(part: string) {
+  return destinationLinks.find(
+    ({ name }) => name.toLocaleLowerCase() === part.toLocaleLowerCase(),
+  );
+}
 ---
 
 <ol class="mt-8 border-y border-ink/15">
@@ -28,9 +50,37 @@ const { items, dayLabel } = Astro.props;
             {String(index + 1).padStart(2, '0')}
           </span>
           <div>
-            <h3 class="text-xl sm:text-2xl">{item.title}</h3>
+            <h3 class="text-xl sm:text-2xl">
+              {titleParts(item.title).map((part) => {
+                const destination = destinationFor(part);
+                return destination ? (
+                  <a
+                    href={destination.href}
+                    class="decoration-vermilion/35 underline-offset-4 hover:decoration-vermilion-dark"
+                  >
+                    {part}
+                  </a>
+                ) : (
+                  part
+                );
+              })}
+            </h3>
             {item.note && (
-              <p class="mt-2 text-sm leading-6 text-ink-soft">{item.note}</p>
+              <p class="mt-2 text-sm leading-6 text-ink-soft">
+                {titleParts(item.note).map((part) => {
+                  const destination = destinationFor(part);
+                  return destination ? (
+                    <a
+                      href={destination.href}
+                      class="decoration-vermilion/35 underline-offset-4 hover:decoration-vermilion-dark"
+                    >
+                      {part}
+                    </a>
+                  ) : (
+                    part
+                  );
+                })}
+              </p>
             )}
           </div>
         </div>

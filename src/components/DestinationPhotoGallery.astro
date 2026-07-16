@@ -1,0 +1,66 @@
+---
+import type { ImageMetadata } from 'astro';
+import ResponsivePhoto from './ResponsivePhoto.astro';
+import PhotographyCredit from './PhotographyCredit.astro';
+
+interface Props {
+  photos: ImageMetadata[];
+  destination: string;
+  locale: 'en' | 'fr';
+}
+
+const { photos, destination, locale } = Astro.props;
+const title =
+  locale === 'en' ? `${destination}, in pictures` : `${destination}, en images`;
+const placeholder =
+  locale === 'en'
+    ? 'Personal photograph coming soon'
+    : 'Photographie personnelle à venir';
+const alt =
+  locale === 'en'
+    ? `A personal photograph of ${destination}`
+    : `Une photographie personnelle de ${destination}`;
+const displayPhotos = photos.slice(0, 6);
+---
+
+<section class="not-prose mt-10 border-t border-ink/15 pt-9">
+  <p class="eyebrow">{title}</p>
+  {
+    displayPhotos.length > 0 ? (
+      <>
+        <div class="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {displayPhotos.map((image) => (
+            <a
+              href={image.src}
+              target="_blank"
+              class="block aspect-square overflow-hidden bg-sage-pale"
+              aria-label={
+                locale === 'en' ? 'Open photograph' : 'Ouvrir la photographie'
+              }
+            >
+              <ResponsivePhoto
+                {image}
+                {alt}
+                class="h-full"
+                sizes="(min-width: 64rem) 23rem, (min-width: 40rem) 50vw, 100vw"
+              />
+            </a>
+          ))}
+        </div>
+        <PhotographyCredit class="mt-3 text-right" />
+      </>
+    ) : (
+      <div class="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <div class="col-span-2 grid min-h-64 place-items-center bg-[linear-gradient(140deg,#dfe4da,#d2c8b7)] p-6 text-center text-xs font-bold uppercase tracking-[0.16em] text-ink/55 sm:min-h-80">
+          {placeholder}
+        </div>
+        <div class="grid min-h-40 place-items-center bg-[linear-gradient(155deg,#ebe3d4,#dfe4da)] p-5 text-center text-xs font-bold uppercase tracking-[0.16em] text-ink/45">
+          {placeholder}
+        </div>
+        <div class="grid min-h-40 place-items-center bg-[linear-gradient(125deg,#d2c8b7,#ebe3d4)] p-5 text-center text-xs font-bold uppercase tracking-[0.16em] text-ink/45 sm:col-start-3">
+          {placeholder}
+        </div>
+      </div>
+    )
+  }
+</section>

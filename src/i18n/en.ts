@@ -35,7 +35,7 @@ export const en = {
     itineraryTitle: 'Routes ready to adapt',
     destinationTitle: 'Begin with a place',
     destinationIntro:
-      'Destination notes will grow as I add personal addresses and photographs.',
+      'Personal city notes, a suggested rhythm and the way each place fits into a longer journey.',
     recommendationsTitle: 'What I actually recommend',
     recommendationsText:
       'My Mapstr map is reserved for restaurants and hotels I have personally tried. The wider planning map also includes researched places still on my list.',
@@ -73,10 +73,11 @@ export const en = {
     guideTitle: 'Practical guide',
     guideIntro: 'All the notes I would send to a friend before a first trip.',
     itineraryTitle: 'Itineraries',
-    itineraryIntro: 'Six routes, organised into practical day-by-day plans.',
+    itineraryIntro:
+      'Six routes from my original travel notes, developed into practical day-by-day journeys.',
     destinationTitle: 'Destinations',
     destinationIntro:
-      'Personal city notes and future additions, without invented recommendations.',
+      'Personal city notes about pace, planning and the places I am continuing to explore.',
     mapsTitle: 'Two maps, two purposes',
     resourcesTitle: 'Useful resources',
     aboutTitle: 'About this guide',

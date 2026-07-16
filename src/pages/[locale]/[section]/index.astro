@@ -172,27 +172,93 @@ const alt =
     }
     {
       kind === 'itineraries' && (
-        <div class="grid gap-5 lg:grid-cols-2">
-          {entries.map(
-            (entry, index) =>
-              'days' in entry.data && (
-                <ItineraryCard
-                  title={entry.data.title}
-                  description={entry.data.description}
-                  href={localisedPath(locale, 'itineraries', entry.data.slug)}
-                  days={entry.data.days}
-                  dayLabel={t.labels.days}
-                  destinations={entry.data.destinations}
-                  featured={index === 0}
-                />
-              ),
-          )}
+        <div>
+          <div class="journal-note mb-10 grid gap-5 md:grid-cols-[0.45fr_1fr]">
+            <p class="eyebrow">
+              {locale === 'en' ? 'How I use them' : 'Comment je les utilise'}
+            </p>
+            <div class="space-y-4 leading-7">
+              <p>
+                {locale === 'en' ? (
+                  <>
+                    These routes began as the simple sequences in my travel
+                    notes. I use them as{' '}
+                    <strong>a structure, not a timetable</strong>: keep the
+                    cities that matter to you, remove a stop when the pace feels
+                    too fast and choose the departure airport before fixing the
+                    final days.
+                  </>
+                ) : (
+                  <>
+                    Ces parcours viennent des enchaînements simples de mes
+                    carnets de voyage. Je les utilise comme{' '}
+                    <strong>une structure, pas comme un horaire</strong> :
+                    gardez les villes qui comptent pour vous, retirez une étape
+                    si le rythme devient trop rapide et choisissez l’aéroport de
+                    départ avant de fixer les derniers jours.
+                  </>
+                )}
+              </p>
+              <p class="text-ink-soft">
+                {locale === 'en'
+                  ? 'The day-by-day route is the backbone; the journal note explains the feeling I wanted from each journey.'
+                  : 'Le parcours jour par jour forme l’ossature ; la note de carnet raconte l’atmosphère que je voulais donner à chaque voyage.'}
+              </p>
+            </div>
+          </div>
+          <div class="grid gap-5 lg:grid-cols-2">
+            {entries.map(
+              (entry, index) =>
+                'days' in entry.data && (
+                  <ItineraryCard
+                    title={entry.data.title}
+                    description={entry.data.description}
+                    href={localisedPath(locale, 'itineraries', entry.data.slug)}
+                    days={entry.data.days}
+                    dayLabel={t.labels.days}
+                    destinations={entry.data.destinations}
+                    featured={index === 0}
+                  />
+                ),
+            )}
+          </div>
         </div>
       )
     }
     {
       kind === 'destinations' && (
         <>
+          <div class="journal-note mb-10 grid gap-5 md:grid-cols-[0.45fr_1fr]">
+            <p class="eyebrow">
+              {locale === 'en' ? 'What is personal' : 'Ce qui est personnel'}
+            </p>
+            <div class="space-y-4 leading-7">
+              <p>
+                {locale === 'en' ? (
+                  <>
+                    These pages begin with{' '}
+                    <strong>how I would place each city in a journey</strong>:
+                    the pace, the number of nights and the choices I would keep
+                    flexible.
+                  </>
+                ) : (
+                  <>
+                    Ces pages commencent par{' '}
+                    <strong>
+                      la façon dont j’intégrerais chaque ville dans un voyage
+                    </strong>{' '}
+                    : le rythme, le nombre de nuits et les choix que je
+                    garderais flexibles.
+                  </>
+                )}
+              </p>
+              <p class="text-ink-soft">
+                {locale === 'en'
+                  ? 'My Mapstr contains the restaurants and hotels I have actually tried. The broader Google map also includes researched places still waiting for a visit.'
+                  : 'Mon Mapstr rassemble les restaurants et hôtels que j’ai réellement testés. La grande carte Google contient aussi des lieux recherchés qui attendent encore une visite.'}
+              </p>
+            </div>
+          </div>
           <div class="grid gap-5 md:grid-cols-3">
             {entries.map(
               (entry) =>

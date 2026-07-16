@@ -36,7 +36,7 @@ export const fr = {
     itineraryTitle: 'Des parcours à adapter',
     destinationTitle: 'Commencer par un lieu',
     destinationIntro:
-      'Ces carnets de destination s’enrichiront avec mes adresses et mes photographies personnelles.',
+      'Des notes personnelles, un rythme suggéré et la place de chaque ville dans un voyage plus long.',
     recommendationsTitle: 'Ce que je recommande vraiment',
     recommendationsText:
       'Ma carte Mapstr est réservée aux restaurants et hôtels que j’ai personnellement testés. La grande carte de préparation contient aussi des lieux recherchés que je n’ai pas encore visités.',
@@ -76,10 +76,10 @@ export const fr = {
       'Toutes les notes que j’enverrais à un proche avant son premier voyage.',
     itineraryTitle: 'Itinéraires',
     itineraryIntro:
-      'Six parcours organisés en programmes pratiques jour par jour.',
+      'Six parcours issus de mes carnets, développés en voyages pratiques jour par jour.',
     destinationTitle: 'Destinations',
     destinationIntro:
-      'Carnets personnels et futures additions, sans recommandations inventées.',
+      'Des carnets personnels sur le rythme, la préparation et les lieux que je continue d’explorer.',
     mapsTitle: 'Deux cartes, deux usages',
     resourcesTitle: 'Ressources utiles',
     aboutTitle: 'À propos de ce guide',

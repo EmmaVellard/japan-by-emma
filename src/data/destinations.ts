@@ -15,3 +15,9 @@ export const plannedDestinations = [
   'Kumamoto',
   'Yakushima',
 ] as const;
+
+export const destinationPageSlugs = {
+  Tokyo: 'tokyo',
+  Kyoto: 'kyoto',
+  Osaka: 'osaka',
+} as const;

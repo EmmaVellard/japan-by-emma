@@ -4,10 +4,21 @@ This folder is the private starting point for personal photographs. The website 
 
 ## Add photographs safely
 
-1. Put JPEG, PNG, TIFF or WebP working files inside `photos/originals/`. Subfolders are preserved, so photographs for the lens page belong in `photos/originals/lens/`.
+1. Put JPEG, PNG, TIFF or WebP working files inside `photos/originals/`. Subfolders are preserved.
 2. Keep RAW camera files outside the repository. RAW formats are blocked by Git as an additional safeguard and are not processed by this workflow.
 3. Run `pnpm images:process`.
 4. Review the new JPEG and WebP files in `src/assets/images/generated/` before publishing them.
+
+## Where each photograph appears
+
+- Lens page: `photos/originals/lens/`
+- Tokyo page gallery: `photos/originals/tokyo/gallery/`
+- Kyoto page gallery: `photos/originals/kyoto/gallery/`
+- Osaka page gallery: `photos/originals/osaka/gallery/`
+- City hero images: `photos/originals/tokyo/tokyo-hero.jpg`, `photos/originals/kyoto/kyoto-hero.jpg` and `photos/originals/osaka/osaka-hero.jpg`
+- About portrait: `photos/originals/about/emma-portrait.jpeg`
+
+Gallery photographs are displayed in alphabetical filename order. Prefixing them with numbers—`01-`, `02-`, `03-`—gives you direct control over their order. The city galleries show up to six photographs in a large square grid.
 
 The default processing removes embedded metadata, applies the correct camera orientation, limits the longest edge to 2000 pixels, and uses quality 82. Existing generated files are left untouched unless you run `pnpm images:process:force`.
 

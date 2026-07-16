@@ -76,6 +76,7 @@ const destination = defineCollection({
       region: z.string(),
       recommendedDuration: z.string(),
       highlights: z.array(z.string()).default([]),
+      personalNote: z.array(z.string()).default([]),
       mapUrl: z.url().optional(),
     }),
 });

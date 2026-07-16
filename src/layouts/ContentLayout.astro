@@ -17,6 +17,7 @@ interface Props {
   heroImage?: ImageMetadata | undefined;
   heroAlt?: string | undefined;
   heroCaption?: string | undefined;
+  heroClass?: string | undefined;
   breadcrumbs: { label: string; href?: string }[];
 }
 const {
@@ -30,6 +31,7 @@ const {
   heroImage,
   heroAlt,
   heroCaption,
+  heroClass = 'aspect-[16/7]',
   breadcrumbs,
 } = Astro.props;
 const t = dictionaries[locale];
@@ -91,7 +93,7 @@ const schema = {
           alt={heroAlt}
           caption={heroCaption}
           eager
-          class="aspect-[16/7]"
+          class={heroClass}
         />
       </div>
     )

@@ -5,6 +5,8 @@ import DayTimeline from '../../../components/DayTimeline.astro';
 import InfoBox from '../../../components/InfoBox.astro';
 import WarningBox from '../../../components/WarningBox.astro';
 import PhotoGallery from '../../../components/PhotoGallery.astro';
+import DistrictGuide from '../../../components/DistrictGuide.astro';
+import DestinationPhotoGallery from '../../../components/DestinationPhotoGallery.astro';
 import {
   dictionaries,
   localisedPath,
@@ -14,10 +16,13 @@ import {
   withBase,
 } from '../../../i18n/utils';
 import { maps } from '../../../data/maps';
+import { cityDistricts } from '../../../data/city-districts';
+import { getDestinationPhotos } from '../../../data/destination-photos';
+import { destinationPageSlugs } from '../../../data/destinations';
 
 type PageKind = 'itineraries' | 'destinations';
 type PageEntry = CollectionEntry<PageKind>;
-interface ItineraryNavItem {
+interface PageNavItem {
   title: string;
   slug: string;
 }
@@ -26,8 +31,8 @@ interface PageProps {
   kind: PageKind;
   entry: PageEntry;
   translation?: PageEntry;
-  previous?: ItineraryNavItem;
-  next?: ItineraryNavItem;
+  previous?: PageNavItem;
+  next?: PageNavItem;
 }
 
 export async function getStaticPaths() {
@@ -43,21 +48,24 @@ export async function getStaticPaths() {
           candidate.data.translationKey === entry.data.translationKey &&
           candidate.data.locale !== locale,
       );
-      const siblings =
-        kind === 'itineraries'
-          ? entries
-              .filter((candidate) => candidate.data.locale === locale)
-              .sort((a, b) => a.data.order - b.data.order)
-          : [];
+      const siblings = entries
+        .filter((candidate) => candidate.data.locale === locale)
+        .sort((a, b) => a.data.order - b.data.order);
       const siblingIndex = siblings.findIndex(
         (candidate) => candidate.id === entry.id,
       );
       const previousEntry =
-        siblingIndex > 0 ? siblings[siblingIndex - 1] : undefined;
+        kind === 'destinations' && siblings.length > 1
+          ? siblings[(siblingIndex - 1 + siblings.length) % siblings.length]
+          : siblingIndex > 0
+            ? siblings[siblingIndex - 1]
+            : undefined;
       const nextEntry =
-        siblingIndex >= 0 && siblingIndex < siblings.length - 1
-          ? siblings[siblingIndex + 1]
-          : undefined;
+        kind === 'destinations' && siblings.length > 1
+          ? siblings[(siblingIndex + 1) % siblings.length]
+          : siblingIndex >= 0 && siblingIndex < siblings.length - 1
+            ? siblings[siblingIndex + 1]
+            : undefined;
       const previous = previousEntry
         ? {
             title: previousEntry.data.title,
@@ -94,6 +102,42 @@ const breadcrumbs = [
   { label: sectionTitle, href: localisedPath(locale, kind) },
   { label: entry.data.title },
 ];
+const districts =
+  kind === 'destinations' ? (cityDistricts[locale][entry.data.slug] ?? []) : [];
+const destinationPhotos =
+  kind === 'destinations' ? getDestinationPhotos(entry.data.slug) : [];
+const pageHeadings =
+  kind === 'destinations' && districts.length > 0
+    ? [
+        ...headings,
+        {
+          depth: 2,
+          slug: 'districts-to-explore',
+          text:
+            locale === 'en' ? 'Districts to explore' : 'Quartiers à explorer',
+        },
+      ]
+    : headings;
+const navigationCopy =
+  kind === 'itineraries'
+    ? {
+        label: locale === 'en' ? 'More itineraries' : 'Autres itinéraires',
+        previous:
+          locale === 'en' ? 'Previous itinerary' : 'Itinéraire précédent',
+        next: locale === 'en' ? 'Next itinerary' : 'Itinéraire suivant',
+      }
+    : {
+        label:
+          locale === 'en' ? 'Explore another city' : 'Explorer une autre ville',
+        previous: locale === 'en' ? 'Previous city' : 'Ville précédente',
+        next: locale === 'en' ? 'Next city' : 'Ville suivante',
+      };
+const itineraryDestinationLinks = Object.entries(destinationPageSlugs).map(
+  ([name, slug]) => ({
+    name,
+    href: withBase(localisedPath(locale, 'destinations', slug)),
+  }),
+);
 ---
 
 <ContentLayout
@@ -103,10 +147,11 @@ const breadcrumbs = [
   {alternatePath}
   lastUpdated={entry.data.lastUpdated}
   needsReview={entry.data.needsReview}
-  {headings}
+  headings={pageHeadings}
   heroImage={entry.data.heroImage}
   heroAlt={entry.data.heroAlt}
   heroCaption={entry.data.heroCaption}
+  heroClass={kind === 'destinations' ? 'aspect-[5/3]' : 'aspect-[16/7]'}
   {breadcrumbs}
 >
   {
@@ -118,11 +163,57 @@ const breadcrumbs = [
           </InfoBox>
         )}
         <h2>{t.labels.route}</h2>
-        <DayTimeline items={entry.data.timeline} dayLabel={t.labels.day} />
+        <DayTimeline
+          items={entry.data.timeline}
+          dayLabel={t.labels.day}
+          destinationLinks={itineraryDestinationLinks}
+        />
       </>
     )
   }
+  {
+    kind === 'destinations' && 'recommendedDuration' in entry.data && (
+      <InfoBox
+        label={locale === 'en' ? 'Recommended duration' : 'Durée conseillée'}
+      >
+        {entry.data.recommendedDuration}
+      </InfoBox>
+    )
+  }
+  {
+    kind === 'destinations' &&
+      'personalNote' in entry.data &&
+      entry.data.personalNote.length > 0 && (
+        <aside
+          class="destination-note"
+          aria-label={locale === 'en' ? 'My note' : 'Ma note'}
+        >
+          <p class="destination-note__label">
+            {locale === 'en' ? 'My note' : 'Ma note'}
+          </p>
+          <div class="destination-note__body">
+            {entry.data.personalNote.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+        </aside>
+      )
+  }
   <Content />
+  {
+    kind === 'destinations' && districts.length > 0 && (
+      <DistrictGuide {districts} {locale} />
+    )
+  }
+  {
+    kind === 'destinations' && (
+      <DestinationPhotoGallery
+        photos={destinationPhotos}
+        destination={entry.data.title}
+        {locale}
+      />
+    )
+  }
   {
     entry.data.gallery.length > 0 && (
       <PhotoGallery photos={entry.data.gallery} {locale} />
@@ -179,22 +270,16 @@ const breadcrumbs = [
     )
   }
   {
-    kind === 'destinations' && 'recommendedDuration' in entry.data && (
-      <InfoBox
-        label={locale === 'en' ? 'Recommended duration' : 'Durée conseillée'}
-      >
-        {entry.data.recommendedDuration}
-      </InfoBox>
-    )
-  }
-  {
-    kind === 'destinations' && 'mapUrl' in entry.data && entry.data.mapUrl && (
-      <p>
-        <a class="button-secondary" href={entry.data.mapUrl}>
-          {t.actions.openMap} ↗
-        </a>
-      </p>
-    )
+    kind === 'destinations' &&
+      districts.length === 0 &&
+      'mapUrl' in entry.data &&
+      entry.data.mapUrl && (
+        <p>
+          <a class="button-secondary" href={entry.data.mapUrl}>
+            {t.actions.openMap} ↗
+          </a>
+        </p>
+      )
   }
   {
     entry.data.needsReview && (
@@ -206,19 +291,18 @@ const breadcrumbs = [
     )
   }
   {
-    kind === 'itineraries' && (previous || next) && (
+    (previous || next) && (
       <nav
         class="not-prose mt-14 grid border-y border-ink/15 sm:grid-cols-2"
-        aria-label={locale === 'en' ? 'More itineraries' : 'Autres itinéraires'}
+        aria-label={navigationCopy.label}
       >
         {previous ? (
           <a
             class="group border-b border-ink/15 px-5 py-6 no-underline hover:bg-paper-deep sm:border-b-0 sm:border-r sm:px-7"
-            href={withBase(localisedPath(locale, 'itineraries', previous.slug))}
+            href={withBase(localisedPath(locale, kind, previous.slug))}
           >
             <span class="text-xs font-bold uppercase tracking-[0.14em] text-vermilion-dark">
-              ←{' '}
-              {locale === 'en' ? 'Previous itinerary' : 'Itinéraire précédent'}
+              ← {navigationCopy.previous}
             </span>
             <span class="mt-2 block font-display text-2xl font-medium text-ink group-hover:underline">
               {previous.title}
@@ -230,10 +314,10 @@ const breadcrumbs = [
         {next && (
           <a
             class="group px-5 py-6 text-left no-underline hover:bg-paper-deep sm:px-7 sm:text-right"
-            href={withBase(localisedPath(locale, 'itineraries', next.slug))}
+            href={withBase(localisedPath(locale, kind, next.slug))}
           >
             <span class="text-xs font-bold uppercase tracking-[0.14em] text-vermilion-dark">
-              {locale === 'en' ? 'Next itinerary' : 'Itinéraire suivant'} →
+              {navigationCopy.next} →
             </span>
             <span class="mt-2 block font-display text-2xl font-medium text-ink group-hover:underline">
               {next.title}
