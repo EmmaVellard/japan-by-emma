@@ -6,6 +6,7 @@ import {
   type Section,
   withBase,
 } from '../i18n/utils';
+import BrandName from './BrandName.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import MobileMenu from './MobileMenu.astro';
 
@@ -35,8 +36,7 @@ const isActive = (section: Section) =>
   <div class="shell flex min-h-18 items-center justify-between gap-4">
     <a
       class="font-display text-xl font-semibold tracking-tight no-underline"
-      href={withBase(localisedPath(locale))}
-      >Japan <i class="font-normal text-vermilion">by</i> Emma</a
+      href={withBase(localisedPath(locale))}><BrandName /></a
     >
     <nav class="hidden lg:block" aria-label={t.nav.menu}>
       <ul class="flex items-center gap-1 lg:gap-3">

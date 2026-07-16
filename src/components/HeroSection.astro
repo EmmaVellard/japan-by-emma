@@ -1,6 +1,7 @@
 ---
 import type { ImageMetadata } from 'astro';
 import HeroImage from './HeroImage.astro';
+import BrandName from './BrandName.astro';
 interface Props {
   eyebrow: string;
   title: string;
@@ -23,7 +24,6 @@ const {
   secondaryHref,
   secondaryLabel,
 } = Astro.props;
-const [titleStart, titleEnd] = title.split(' by ');
 ---
 
 <section class="shell pt-8 sm:pt-12">
@@ -47,19 +47,7 @@ const [titleStart, titleEnd] = title.split(' by ');
         {eyebrow}
       </p>
       <h1 class="display-title mt-6">
-        {
-          titleEnd ? (
-            <>
-              {titleStart}{' '}
-              <i class="font-normal text-vermilion drop-shadow-[0_1px_2px_rgba(0,0,0,.75)]">
-                by
-              </i>{' '}
-              {titleEnd}
-            </>
-          ) : (
-            title
-          )
-        }
+        {title === 'Japan by Emma' ? <BrandName /> : title}
       </h1>
       <p
         class="mt-7 max-w-2xl text-base leading-7 text-white/85 sm:text-xl sm:leading-8"

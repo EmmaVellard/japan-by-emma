@@ -1,5 +1,6 @@
 ---
 import { withBase } from '../i18n/utils';
+import BrandName from './BrandName.astro';
 interface Item {
   label: string;
   href?: string;
@@ -18,10 +19,12 @@ const { items } = Astro.props;
           {index > 0 && <span aria-hidden="true">/</span>}
           {item.href ? (
             <a class="hover:text-ink" href={withBase(item.href)}>
-              {item.label}
+              {item.label === 'Japan by Emma' ? <BrandName /> : item.label}
             </a>
           ) : (
-            <span aria-current="page">{item.label}</span>
+            <span aria-current="page">
+              {item.label === 'Japan by Emma' ? <BrandName /> : item.label}
+            </span>
           )}
         </li>
       ))

@@ -1,0 +1,11 @@
+---
+interface Props {
+  class?: string | undefined;
+}
+
+const { class: className } = Astro.props;
+---
+
+<span class={className}
+  >Japan <i class="font-normal text-vermilion">by</i> Emma</span
+>

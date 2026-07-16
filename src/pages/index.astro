@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { withBase } from '../i18n/utils';
+import BrandName from '../components/BrandName.astro';
 ---
 
 <!doctype html>
@@ -22,7 +23,7 @@ import { withBase } from '../i18n/utils';
           <div class="bg-ink p-8 text-paper sm:p-12">
             <p class="eyebrow text-[#f2a08b]">A personal field guide</p>
             <h1 class="display-title mt-8 !text-[clamp(3.5rem,8vw,6.5rem)]">
-              Japan <i class="font-normal text-[#d9846f]">by</i> Emma
+              <BrandName />
             </h1>
             <p class="mt-7 max-w-md leading-7 text-paper/75">
               Practical notes, honest recommendations and flexible itineraries
