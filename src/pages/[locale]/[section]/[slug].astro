@@ -106,16 +106,32 @@ const districts =
   kind === 'destinations' ? (cityDistricts[locale][entry.data.slug] ?? []) : [];
 const destinationPhotos =
   kind === 'destinations' ? getDestinationPhotos(entry.data.slug) : [];
+const destinationHtml =
+  kind === 'destinations' && districts.length > 0
+    ? entry.rendered?.html
+    : undefined;
+const thirdDestinationHeadingIndex = destinationHtml
+  ? [...destinationHtml.matchAll(/<h2\b/g)][2]?.index
+  : undefined;
+const destinationOpeningHtml =
+  destinationHtml && typeof thirdDestinationHeadingIndex === 'number'
+    ? destinationHtml.slice(0, thirdDestinationHeadingIndex)
+    : undefined;
+const destinationRemainingHtml =
+  destinationHtml && typeof thirdDestinationHeadingIndex === 'number'
+    ? destinationHtml.slice(thirdDestinationHeadingIndex)
+    : undefined;
 const pageHeadings =
   kind === 'destinations' && districts.length > 0
     ? [
-        ...headings,
+        ...headings.slice(0, 2),
         {
           depth: 2,
           slug: 'districts-to-explore',
           text:
             locale === 'en' ? 'Districts to explore' : 'Quartiers à explorer',
         },
+        ...headings.slice(2),
       ]
     : headings;
 const navigationCopy =
@@ -146,7 +162,6 @@ const itineraryDestinationLinks = Object.entries(destinationPageSlugs).map(
   description={entry.data.description}
   {alternatePath}
   lastUpdated={entry.data.lastUpdated}
-  needsReview={entry.data.needsReview}
   headings={pageHeadings}
   heroImage={entry.data.heroImage}
   heroAlt={entry.data.heroAlt}
@@ -199,10 +214,20 @@ const itineraryDestinationLinks = Object.entries(destinationPageSlugs).map(
         </aside>
       )
   }
-  <Content />
   {
-    kind === 'destinations' && districts.length > 0 && (
-      <DistrictGuide {districts} {locale} />
+    destinationOpeningHtml && destinationRemainingHtml ? (
+      <>
+        <Fragment set:html={destinationOpeningHtml} />
+        <DistrictGuide {districts} {locale} />
+        <Fragment set:html={destinationRemainingHtml} />
+      </>
+    ) : (
+      <>
+        <Content />
+        {kind === 'destinations' && districts.length > 0 && (
+          <DistrictGuide {districts} {locale} />
+        )}
+      </>
     )
   }
   {

@@ -5,7 +5,7 @@ locale: fr
 translationKey: apps-and-resources
 slug: applications-et-ressources
 order: 12
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 translationReview: true
 ---

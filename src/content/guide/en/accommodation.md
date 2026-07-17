@@ -6,7 +6,7 @@ translationKey: accommodation
 slug: accommodation
 order: 6
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 ---
 

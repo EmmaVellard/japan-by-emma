@@ -12,7 +12,6 @@ interface Props {
   description: string;
   alternatePath: string;
   lastUpdated: Date;
-  needsReview?: boolean | undefined;
   headings?: { depth: number; slug: string; text: string }[] | undefined;
   heroImage?: ImageMetadata | undefined;
   heroAlt?: string | undefined;
@@ -26,7 +25,6 @@ const {
   description,
   alternatePath,
   lastUpdated,
-  needsReview,
   headings = [],
   heroImage,
   heroAlt,
@@ -78,8 +76,6 @@ const schema = {
           label={t.labels.lastUpdated}
           date={lastUpdated}
           {locale}
-          {needsReview}
-          reviewLabel={t.labels.verify}
           recentLabel={t.labels.updated}
         />
       </div>

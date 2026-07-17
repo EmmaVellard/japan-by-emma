@@ -30,24 +30,69 @@ const displayPhotos = photos.slice(0, 6);
       <>
         <div class="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
           {displayPhotos.map((image) => (
-            <a
-              href={image.src}
-              target="_blank"
-              class="block aspect-square overflow-hidden bg-sage-pale"
-              aria-label={
-                locale === 'en' ? 'Open photograph' : 'Ouvrir la photographie'
-              }
-            >
+            <div class="relative aspect-square overflow-hidden bg-sage-pale">
               <ResponsivePhoto
                 {image}
                 {alt}
                 class="h-full"
                 sizes="(min-width: 64rem) 23rem, (min-width: 40rem) 50vw, 100vw"
               />
-            </a>
+              <button
+                type="button"
+                class="lens-enlarge-button"
+                data-city-photo-src={image.src}
+                data-city-photo-alt={alt}
+                aria-label={
+                  locale === 'en'
+                    ? 'Open this photograph larger'
+                    : 'Agrandir cette photographie'
+                }
+              />
+            </div>
           ))}
         </div>
         <PhotographyCredit class="mt-3 text-right" />
+        <dialog
+          class="lens-lightbox"
+          data-city-photo-lightbox
+          aria-label={
+            locale === 'en' ? 'Enlarged photograph' : 'Photographie agrandie'
+          }
+        >
+          <button
+            type="button"
+            class="lens-lightbox-close"
+            data-city-photo-close
+            aria-label={
+              locale === 'en' ? 'Close photograph' : 'Fermer la photographie'
+            }
+          >
+            ×
+          </button>
+          <button
+            type="button"
+            class="lens-lightbox-nav lens-lightbox-previous"
+            data-city-photo-previous
+            aria-label={
+              locale === 'en'
+                ? 'Previous photograph'
+                : 'Photographie précédente'
+            }
+          >
+            ‹
+          </button>
+          <img data-city-photo-lightbox-image src="" alt="" />
+          <button
+            type="button"
+            class="lens-lightbox-nav lens-lightbox-next"
+            data-city-photo-next
+            aria-label={
+              locale === 'en' ? 'Next photograph' : 'Photographie suivante'
+            }
+          >
+            ›
+          </button>
+        </dialog>
       </>
     ) : (
       <div class="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -64,3 +109,56 @@ const displayPhotos = photos.slice(0, 6);
     )
   }
 </section>
+
+<script>
+  const cityPhotoLightbox = document.querySelector<HTMLDialogElement>(
+    '[data-city-photo-lightbox]',
+  );
+  const cityPhotoLightboxImage =
+    cityPhotoLightbox?.querySelector<HTMLImageElement>(
+      '[data-city-photo-lightbox-image]',
+    );
+  const cityPhotoButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>('[data-city-photo-src]'),
+  );
+  let activeCityPhotoIndex = 0;
+
+  const showCityPhoto = (index: number) => {
+    if (!cityPhotoLightboxImage || cityPhotoButtons.length === 0) return;
+    activeCityPhotoIndex =
+      (index + cityPhotoButtons.length) % cityPhotoButtons.length;
+    const button = cityPhotoButtons[activeCityPhotoIndex];
+    if (!button) return;
+    cityPhotoLightboxImage.src = button.dataset.cityPhotoSrc ?? '';
+    cityPhotoLightboxImage.alt = button.dataset.cityPhotoAlt ?? '';
+  };
+
+  cityPhotoButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      if (!cityPhotoLightbox) return;
+      showCityPhoto(index);
+      cityPhotoLightbox.showModal();
+    });
+  });
+
+  cityPhotoLightbox
+    ?.querySelector('[data-city-photo-previous]')
+    ?.addEventListener('click', () => showCityPhoto(activeCityPhotoIndex - 1));
+
+  cityPhotoLightbox
+    ?.querySelector('[data-city-photo-next]')
+    ?.addEventListener('click', () => showCityPhoto(activeCityPhotoIndex + 1));
+
+  cityPhotoLightbox
+    ?.querySelector('[data-city-photo-close]')
+    ?.addEventListener('click', () => cityPhotoLightbox.close());
+
+  cityPhotoLightbox?.addEventListener('click', (event) => {
+    if (event.target === cityPhotoLightbox) cityPhotoLightbox.close();
+  });
+
+  cityPhotoLightbox?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') showCityPhoto(activeCityPhotoIndex - 1);
+    if (event.key === 'ArrowRight') showCityPhoto(activeCityPhotoIndex + 1);
+  });
+</script>

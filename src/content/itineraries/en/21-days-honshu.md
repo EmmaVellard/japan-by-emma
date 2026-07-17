@@ -5,7 +5,7 @@ locale: en
 translationKey: itinerary-honshu-21
 slug: 21-days-honshu
 order: 5
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 days: 21
 recommendedFor: Travellers comfortable with a faster multi-city route

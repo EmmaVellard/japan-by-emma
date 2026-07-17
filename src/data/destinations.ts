@@ -20,4 +20,10 @@ export const destinationPageSlugs = {
   Tokyo: 'tokyo',
   Kyoto: 'kyoto',
   Osaka: 'osaka',
+  Kamakura: 'kamakura',
+  Enoshima: 'enoshima',
+  Yokohama: 'yokohama',
+  Nara: 'nara',
+  'Shirakawa-go': 'shirakawa-go',
+  Miyajima: 'miyajima',
 } as const;

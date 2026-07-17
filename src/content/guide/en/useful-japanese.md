@@ -5,7 +5,7 @@ locale: en
 translationKey: useful-japanese
 slug: useful-japanese
 order: 4
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 ---
 
 ## Three writing systems

@@ -6,7 +6,7 @@ translationKey: destination-kyoto
 slug: kyoto
 order: 2
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 translationReview: true
 heroImage: ../../../assets/images/generated/kyoto/kyoto-hero.jpg
@@ -42,7 +42,7 @@ Osaka, Nara et Kobe peuvent être visitées à la journée ou devenir des étape
 
 Osaka fonctionne bien pour une soirée plus animée ou un dernier chapitre séparé. Nara peut rester une excursion. Kobe trouve sa place lorsque l’itinéraire conserve assez de respiration.
 
-## Manger et dormir
+## Hébergement
 
 J’ajoute encore les lieux que j’ai aimés ; les cartes sont donc le meilleur endroit pour retrouver mes notes les plus récentes. La grande carte Google contient aussi des lieux en cours de recherche ; Mapstr rassemble les restaurants et hôtels que j’ai personnellement testés.
 

@@ -3,18 +3,9 @@ interface Props {
   label: string;
   date: Date;
   locale: string;
-  needsReview?: boolean | undefined;
-  reviewLabel?: string | undefined;
   recentLabel?: string | undefined;
 }
-const {
-  label,
-  date,
-  locale,
-  needsReview = false,
-  reviewLabel,
-  recentLabel,
-} = Astro.props;
+const { label, date, locale, recentLabel } = Astro.props;
 const isRecent = date.getTime() >= Date.UTC(2026, 2, 1);
 ---
 
@@ -31,12 +22,6 @@ const isRecent = date.getTime() >= Date.UTC(2026, 2, 1);
   >{
     isRecent && recentLabel && (
       <span class="bg-sage-pale px-3 py-1.5 text-ink">{recentLabel}</span>
-    )
-  }{
-    needsReview && (
-      <span class="bg-[#f4dfd8] px-3 py-1.5 text-vermilion-dark">
-        {reviewLabel}
-      </span>
     )
   }
 </div>

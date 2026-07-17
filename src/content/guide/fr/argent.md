@@ -5,7 +5,7 @@ locale: fr
 translationKey: money
 slug: argent
 order: 10
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 translationReview: true
 ---

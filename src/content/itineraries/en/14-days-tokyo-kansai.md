@@ -6,7 +6,7 @@ translationKey: itinerary-tokyo-kansai-14
 slug: 14-days-tokyo-kansai
 order: 1
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 days: 14
 recommendedFor: A first trip to Japan

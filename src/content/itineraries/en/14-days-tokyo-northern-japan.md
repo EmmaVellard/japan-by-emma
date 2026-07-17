@@ -6,7 +6,7 @@ translationKey: itinerary-tokyo-north-14
 slug: 14-days-tokyo-northern-japan
 order: 2
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 days: 14
 recommendedFor: Travellers who want more time in northern cities

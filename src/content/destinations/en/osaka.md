@@ -6,7 +6,7 @@ translationKey: destination-osaka
 slug: osaka
 order: 3
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 heroImage: ../../../assets/images/generated/osaka/osaka-hero.jpg
 heroAlt: One of my photographs of Osaka
@@ -35,7 +35,7 @@ That flexibility is useful, but it should be decided before the last hotels are 
 
 If the route already contains many hotel changes, the day-trip version may feel better. If the flight leaves from the region, staying can make the ending calmer.
 
-## Food and accommodation
+## Accommodation
 
 I add my personally tested restaurants and hotels to Mapstr as I go. The wider Google map also contains places that are still research notes, so I treat the two maps differently.
 

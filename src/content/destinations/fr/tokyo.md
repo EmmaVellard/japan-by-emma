@@ -6,7 +6,7 @@ translationKey: destination-tokyo
 slug: tokyo
 order: 1
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 translationReview: true
 heroImage: ../../../assets/images/generated/tokyo/tokyo-hero.jpg
@@ -38,15 +38,13 @@ Pour un premier voyage, je ne choisirais pas toutes les excursions à l’avance
 
 ## Excursions possibles
 
-- Kamakura
-- Enoshima
-- Yokohama
+- [Kamakura](../kamakura/) — l’un de mes endroits préférés au Japon, que je recommande vraiment.
+- [Enoshima](../enoshima/) — facile à combiner avec Kamakura au cours d’une même excursion à la journée.
+- [Yokohama](../yokohama/)
 
 Ce sont des possibilités, pas des obligations. Tokyo peut très facilement remplir tout le séjour.
 
-## Manger et dormir
-
-Je garde deux cartes différentes pour une bonne raison. **Google My Maps est mon grand carnet** : restaurants, cafés, hôtels, musées, parcs et lieux que j’envisage encore. **Mapstr est ma sélection personnelle** de restaurants et d’hôtels que j’ai réellement testés.
+## Hébergement
 
 Pour l’hébergement, je regarde les trajets que je pense répéter plutôt que de chercher un centre prétendument parfait. Tokyo est trop grande pour qu’un quartier soit pratique pour tout.
 
@@ -58,4 +56,4 @@ Les consignes peuvent sauver une journée entre deux hôtels, et les konbinis so
 
 Tokyo possède deux grands aéroports internationaux. **Je préfère Haneda**, généralement plus simple pour rejoindre le centre, mais le meilleur choix dépend toujours du prix, de l’heure d’arrivée et de l’hôtel.
 
-Avant de partir vers Kyoto, Osaka ou le nord du Japon, vérifiez la gare et le train exacts plutôt que de vous fier uniquement au nom de l’itinéraire. Si vous espérez voir le mont Fuji depuis le train Tokyo–Kyoto/Osaka, confirmez le sens du trajet, la configuration du train et le côté à réserver.
+Avant de partir vers Kyoto, Osaka ou le nord du Japon, vérifiez la gare et le train exacts plutôt que de vous fier uniquement au nom de l’itinéraire. Si vous voulez voir le mont Fuji sur le trajet Tokyo–Kyoto/Osaka, réservez une **place côté fenêtre à droite en partant de Tokyo**, et à **gauche pour le trajet retour**. Ces places sont souvent réservées en premier, il vaut donc mieux s’y prendre à l’avance.

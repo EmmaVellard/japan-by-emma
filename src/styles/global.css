@@ -398,6 +398,10 @@ p {
   margin-top: 0;
 }
 
+.prose-guide > .district-guide {
+  margin-top: clamp(2.75rem, 7vw, 4rem);
+}
+
 .prose-guide > h3 {
   margin-top: 1.3em;
   font-size: 1.55rem;

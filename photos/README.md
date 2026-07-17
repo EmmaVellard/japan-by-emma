@@ -15,6 +15,10 @@ This folder is the private starting point for personal photographs. The website 
 - Tokyo page gallery: `photos/originals/tokyo/gallery/`
 - Kyoto page gallery: `photos/originals/kyoto/gallery/`
 - Osaka page gallery: `photos/originals/osaka/gallery/`
+- Kamakura page gallery: `photos/originals/kamakura/gallery/`
+- Nara page gallery: `photos/originals/nara/gallery/`
+- Shirakawa-go page gallery: `photos/originals/shirakawa-go/gallery/`
+- Miyajima page gallery: `photos/originals/miyajima/gallery/`
 - City hero images: `photos/originals/tokyo/tokyo-hero.jpg`, `photos/originals/kyoto/kyoto-hero.jpg` and `photos/originals/osaka/osaka-hero.jpg`
 - About portrait: `photos/originals/about/emma-portrait.jpeg`
 

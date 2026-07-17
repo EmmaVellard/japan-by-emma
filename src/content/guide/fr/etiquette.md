@@ -6,7 +6,7 @@ translationKey: etiquette
 slug: etiquette
 order: 3
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 translationReview: true
 ---
 

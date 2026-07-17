@@ -42,7 +42,7 @@ export async function getStaticPaths() {
 const { locale, kind, resource } = Astro.props as Props;
 const t = dictionaries[locale];
 const alternatePath = localisedPath(otherLocale(locale), kind);
-const today = new Date('2026-07-13');
+const today = new Date('2026-07-16');
 const portraitModules = import.meta.glob<{ default: ImageMetadata }>(
   '../../assets/images/generated/about/emma-portrait.{jpg,jpeg,png}',
   { eager: true },
@@ -238,7 +238,6 @@ if (kind === 'resources' && resource) {
       description={resource.data.description}
       {alternatePath}
       lastUpdated={resource.data.lastUpdated}
-      needsReview={resource.data.needsReview}
       headings={resourceHeadings}
       breadcrumbs={[
         { label: 'Japan by Emma', href: localisedPath(locale) },

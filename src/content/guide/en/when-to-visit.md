@@ -6,7 +6,7 @@ translationKey: when-to-visit
 slug: when-to-visit
 order: 2
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 ---
 

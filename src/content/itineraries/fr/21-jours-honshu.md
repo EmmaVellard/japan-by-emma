@@ -5,7 +5,7 @@ locale: fr
 translationKey: itinerary-honshu-21
 slug: 21-jours-honshu
 order: 5
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 translationReview: true
 days: 21

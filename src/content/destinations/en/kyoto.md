@@ -6,7 +6,7 @@ translationKey: destination-kyoto
 slug: kyoto
 order: 2
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 heroImage: ../../../assets/images/generated/kyoto/kyoto-hero.jpg
 heroAlt: One of my photographs of Kyoto
@@ -41,7 +41,7 @@ Osaka, Nara and Kobe can be incorporated as day trips or separate stays, dependi
 
 Osaka works well when you want a livelier evening or a separate final chapter. Nara can remain a day trip. Kobe can be added when the route has enough breathing room.
 
-## Food and stays
+## Accommodation
 
 I am still adding the places I have loved, so the maps are the best place to see the newest notes. The broad Google map includes places I am researching; Mapstr is where I keep the restaurants and hotels I have personally tried.
 

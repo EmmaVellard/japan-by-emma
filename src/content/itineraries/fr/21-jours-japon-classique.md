@@ -6,7 +6,7 @@ translationKey: itinerary-classic-21
 slug: 21-jours-japon-classique
 order: 4
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 translationReview: true
 days: 21

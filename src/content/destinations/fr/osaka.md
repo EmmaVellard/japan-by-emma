@@ -6,7 +6,7 @@ translationKey: destination-osaka
 slug: osaka
 order: 3
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 translationReview: true
 heroImage: ../../../assets/images/generated/osaka/osaka-hero.jpg
@@ -36,7 +36,7 @@ Cette flexibilité est utile, mais elle doit être décidée avant de réserver 
 
 Si le parcours contient déjà beaucoup de changements d’hôtel, l’excursion sera peut-être plus agréable. Si le vol part de la région, y dormir peut rendre la fin du voyage plus calme.
 
-## Manger et dormir
+## Hébergement
 
 J’ajoute au fil du temps mes restaurants et hôtels personnellement testés sur Mapstr. La grande carte Google contient aussi des lieux qui restent des notes de recherche ; je n’utilise donc pas les deux cartes de la même manière.
 

@@ -5,7 +5,7 @@ locale: fr
 translationKey: useful-japanese
 slug: japonais-utile
 order: 4
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 translationReview: true
 ---
 

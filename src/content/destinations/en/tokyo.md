@@ -6,7 +6,7 @@ translationKey: destination-tokyo
 slug: tokyo
 order: 1
 featured: true
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 heroImage: ../../../assets/images/generated/tokyo/tokyo-hero.jpg
 heroAlt: One of my photographs of Tokyo
@@ -37,15 +37,13 @@ For a first trip, I would not decide every day trip in advance. Keep one or two 
 
 ## Possible day trips
 
-- Kamakura
-- Enoshima
-- Yokohama
+- [Kamakura](../kamakura/) — one of my favourite places in Japan, and a day trip I definitely recommend.
+- [Enoshima](../enoshima/) — easy to combine with Kamakura for a single day trip.
+- [Yokohama](../yokohama/)
 
 These are options, not obligations. Tokyo can easily fill the entire stay on its own.
 
-## Food and accommodation
-
-I keep two different maps for a reason. **My Google My Maps is the broad notebook**: restaurants, cafes, hotels, museums, parks and places I am still considering. **My Mapstr is the personal shortlist** for restaurants and hotels I have actually tried.
+## Accommodation
 
 When choosing accommodation, I look at the journeys I expect to repeat rather than searching for one supposedly perfect centre. Tokyo is too large for every area to be convenient for everything.
 
@@ -57,4 +55,4 @@ Coin lockers can rescue a day between hotels, and convenience stores are useful 
 
 Tokyo has two major international airports. **I prefer Haneda** because it is generally easier to reach from central Tokyo, but the best choice still depends on the fare, arrival time and hotel.
 
-Before leaving for Kyoto, Osaka or northern Japan, check the exact departure station and train rather than relying on the route name alone. If you hope to see Mount Fuji from the Tokyo–Kyoto/Osaka train, confirm the current direction, train layout and seat side before reserving.
+Before leaving for Kyoto, Osaka or northern Japan, check the exact departure station and train rather than relying on the route name alone. If you want to see Mount Fuji on the Tokyo–Kyoto/Osaka route, reserve a **window seat on the right side when travelling from Tokyo**, and on the **left side for the return journey**. These seats are often booked first, so it is worth reserving one in advance.

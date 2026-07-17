@@ -10,12 +10,33 @@ interface Props {
 }
 
 const { districts, locale } = Astro.props;
+const escapeRegExp = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const highlightedDescriptions = districts.map(
+  ({ description, descriptionHighlights = [] }) => {
+    const splitAt = description.search(/[,;:]/);
+    const lead = splitAt > 0 ? description.slice(0, splitAt) : description;
+    const highlights = [lead, ...descriptionHighlights];
+    const expression = new RegExp(
+      `(${highlights
+        .sort((a, b) => b.length - a.length)
+        .map(escapeRegExp)
+        .join('|')})`,
+      'g',
+    );
+
+    return description
+      .split(expression)
+      .filter(Boolean)
+      .map((text) => ({ text, highlighted: highlights.includes(text) }));
+  },
+);
 const copy =
   locale === 'en'
     ? {
         title: 'Districts to explore',
         intro:
-          'Exploring one area at a time keeps the days calmer—especially in Tokyo. Mapstr marks places I have personally tried; Google Maps is my larger notebook of saved ideas.',
+          'Exploring one area at a time keeps the day calmer. Each district brings together a few essential sights and useful places for food or a pause.',
         mapstr: 'Personally tried · Mapstr',
         google: 'Saved for research · Google Maps',
         points: 'Points of interest',
@@ -25,7 +46,7 @@ const copy =
     : {
         title: 'Quartiers à explorer',
         intro:
-          'Explorer une zone à la fois rend les journées plus douces, surtout à Tokyo. Mapstr rassemble les adresses que j’ai testées ; Google Maps est mon carnet plus large d’idées enregistrées.',
+          'Explorer une zone à la fois rend la journée plus douce. Chaque quartier réunit quelques lieux essentiels et des adresses utiles pour manger ou faire une pause.',
         mapstr: 'Testé personnellement · Mapstr',
         google: 'Enregistré pour mes recherches · Google Maps',
         points: 'Points d’intérêt',
@@ -34,12 +55,14 @@ const copy =
       };
 ---
 
-<section
-  id="districts-to-explore"
-  class="not-prose mt-10 scroll-mt-28 border-t border-ink/15 pt-9"
->
+<section class="district-guide not-prose">
   <div class="max-w-2xl">
-    <p class="eyebrow">{copy.title}</p>
+    <h2
+      id="districts-to-explore"
+      class="scroll-mt-28 font-display text-[clamp(1.9rem,3.4vw,2.75rem)] font-medium leading-[1.05] text-ink"
+    >
+      {copy.title}
+    </h2>
     <p class="mt-4 text-base leading-7 text-ink-soft">{copy.intro}</p>
   </div>
 
@@ -57,7 +80,9 @@ const copy =
           </div>
           <div class="min-w-0">
             <p class="max-w-2xl leading-7 text-ink-soft">
-              {district.description}
+              {highlightedDescriptions[index]?.map((part) =>
+                part.highlighted ? <strong>{part.text}</strong> : part.text,
+              )}
             </p>
             <div class="mt-4">
               <p class="text-xs font-bold uppercase tracking-[0.12em] text-vermilion-dark">

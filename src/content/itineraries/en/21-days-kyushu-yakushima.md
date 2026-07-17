@@ -5,7 +5,7 @@ locale: en
 translationKey: itinerary-kyushu-21
 slug: 21-days-kyushu-yakushima
 order: 6
-lastUpdated: 2024-01-01
+lastUpdated: 2026-07-16
 needsReview: true
 days: 21
 recommendedFor: Travellers prioritising southern Japan and island time
