@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
-import { withBase } from '../i18n/utils';
 import BrandName from '../components/BrandName.astro';
+import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
+import { withBase } from '../i18n/utils';
 ---
 
 <!doctype html>
@@ -42,5 +43,6 @@ import BrandName from '../components/BrandName.astro';
         </div>
       </section>
     </main>
+    <CloudflareAnalytics />
   </body>
 </html>
